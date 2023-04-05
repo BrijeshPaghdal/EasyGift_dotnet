@@ -14,9 +14,16 @@ namespace EasyGift_API.Models.Dto
         [Required]
         [MaxLength(30)]
         public string CompanyName { get; set; }
+        [Required]
         public int Price { get; set; }
+        [Required]
         public int AvailableQuantity { get; set; }
+        [Required]
         public string ProductDiscription { get; set; }
-        private int ProductStatus { get; set; }
+        private int ProductStatus { 
+            set => ProductStatus = 0; 
+        }
+        private DateTime CreatedDate { get => CreatedDate; set => CreatedDate = DateTime.Now; }
+
     }
 }

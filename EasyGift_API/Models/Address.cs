@@ -16,7 +16,7 @@ namespace EasyGift_API.Models
         [MaxLength(200)]
         public string? ShopAddress { get; set; }
 
-        public int PinCode { get; set; }
+        public int? PinCode { get; set; }
 
         [Required]
         [ForeignKey("Cities")]

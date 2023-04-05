@@ -1,4 +1,5 @@
 using EasyGift_API.Data;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,6 +11,11 @@ builder.Services.AddDbContext<ApplicationDbContext>(option =>
     option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultSQLConnection"));
 });
 
+//
+
+builder.Services.AddControllers(option => {
+    //option.ReturnHttpNotAcceptable=true;
+}).AddNewtonsoftJson().AddXmlDataContractSerializerFormatters();
 // Add services to the container.
 
 builder.Services.AddControllers();

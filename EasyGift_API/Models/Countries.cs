@@ -3,23 +3,19 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EasyGift_API.Models
 {
-    public class Admin
+    public class Countries
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int AdminId { get; set; }
-
+        public int CountryId { get; set; }
         [Required]
         [MaxLength(20)]
-        public string AdminName { get; set; }
-        
-        [MaxLength(20)]
+        public string SortName { get; set; }
         [Required]
-        public string AdminEmail { get; set; }
-
+        [MaxLength(50)]
+        public string CountryName { get; set; }
         [Required]
-        [MaxLength(200)]
-        public string AdminPassword { get; set; }
-
+        public int PhoneCode { get; set; }
+       
     }
 }

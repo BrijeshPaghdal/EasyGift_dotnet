@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EasyGift_API.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230404121744_productAdded")]
+    [Migration("20230404135208_productAdded")]
     partial class productAdded
     {
         /// <inheritdoc />
@@ -68,7 +68,7 @@ namespace EasyGift_API.Migrations
 
                     b.HasKey("ProductId");
 
-                    b.ToTable("Products");
+                    b.ToTable("Product");
                 });
 #pragma warning restore 612, 618
         }

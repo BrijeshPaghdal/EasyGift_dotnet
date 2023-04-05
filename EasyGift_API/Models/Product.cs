@@ -25,7 +25,7 @@ namespace EasyGift_API.Models
         public string ProductDiscription { get; set; }
         public int ProductStatus { get; set; }
         public DateTime CreatedDate { get; set; }
-        public DateTime UpdateDate { get; set; }
+        public DateTime? UpdateDate { get; set; }
 
 
     }
