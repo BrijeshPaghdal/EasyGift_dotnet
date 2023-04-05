@@ -3,17 +3,19 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EasyGift_API.Models
 {
-    public class Review
+    public class SellerLogin
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int ReviewId { get; set; }
-
-        [ForeignKey("Order")]
         public int Id { get; set; }
-        public int Rating { get; set; }
-        public string ReviewDetail { get; set; }
-        public DateTime ReviewDate { get; set; }
+
+        [Required]
+        [MaxLength(100)]
+        public string Session { get; set; }
+        
+    
+        public int Time { get; set; }
+
 
     }
 }

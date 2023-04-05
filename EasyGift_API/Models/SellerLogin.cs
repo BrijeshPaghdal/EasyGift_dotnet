@@ -3,18 +3,20 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EasyGift_API.Models
 {
-    public class ForgotPassword
+    public class SellerLogin
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int ForgotPassowrdId { get; set; }
+        public int SellerLoginId { get; set; }
 
         [Required]
-        [ForeignKey("CustomerLoginId")]
-        public int CustomerLoginId { get; set; }
+        [MaxLength(200)]
+        public string EmailId { get; set; }
         
+        [MaxLength(100)]
         [Required]
-        public DateTime Validtill { get; set; }
+        public string Password { get; set; }
+
 
     }
 }

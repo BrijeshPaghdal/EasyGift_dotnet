@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EasyGift_API.Models
 {
-    public class Image
+    public class Order
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -14,7 +14,6 @@ namespace EasyGift_API.Models
         [ForeignKey("Product")]
         public int ProductId { get; set; }
         public string FirstName { get; set; }
-        public string LastName { get; set; }
         public string LastName { get; set; }
         public string PhoneNo { get; set; }
         public int Quantity { get; set; }
