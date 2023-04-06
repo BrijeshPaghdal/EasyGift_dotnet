@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EasyGift_API.Models
 {
-    public class UserLogin
+    public class UserOnline
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
