@@ -1,5 +1,7 @@
 using EasyGift_API;
 using EasyGift_API.Data;
+using EasyGift_API.Repository;
+using EasyGift_API.Repository.IRepository;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,6 +16,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(option =>
 
 //Add AutoMapper
 builder.Services.AddAutoMapper(typeof(MappingConfig));
+//Resigter Repository
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
 
 //Add NewtwonsoftJson
 builder.Services.AddControllers(option => {
