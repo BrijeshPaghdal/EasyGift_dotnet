@@ -15,7 +15,7 @@ namespace EasyGift_API.Models.Dto
         public int AvailableQuantity { get; set; }
         public string ProductDiscription { get; set; }
         public int ProductStatus { get; set; }
-        private DateTime UpdateDate { get => UpdateDate; set => UpdateDate = DateTime.Now; }
+        private DateTime UpdateDate { get; set; }
 
     }
 }

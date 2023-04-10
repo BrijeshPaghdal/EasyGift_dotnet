@@ -9,56 +9,20 @@ using System.Linq.Expressions;
 
 namespace EasyGift_API.Repository
 {
-    public class ProductRepository : IProductRepository
+    public class ProductRepository : Repository<Product>, IProductRepository
     {
         private readonly ApplicationDbContext _db;
-        private readonly IMapper _mapper;
-        public ProductRepository(ApplicationDbContext db,IMapper mapper)
+       public ProductRepository(ApplicationDbContext db):base(db) 
         {
             _db = db;
-            _mapper = mapper;
         }
-        public async Task CreateAsync(Product entity)
+       
+        public async Task<Product> UpdateAsync(Product entity)
         {
-            await _db.Product.AddAsync(entity);
-            await SaveAsync();
-        }
-
-        public async Task<Product> GetAsync(Expression<Func<Product,bool>> filter = null, bool tracked = true)
-        {
-            IQueryable<Product> query = _db.Product;
-            if(!tracked)
-                query= query.AsNoTracking();
-            if (filter != null)
-                query = query.Where(filter);
-            return await query.FirstOrDefaultAsync();
-        }
-
-        public async Task<List<Product>> GetAllAsync(Expression<Func<Product,bool>> filter = null)
-        {
-            IQueryable<Product> query = _db.Product;
-            if(filter != null)
-                query = query.Where(filter);
-
-            return await query.ToListAsync();
-        }
-
-
-        public async Task RemoveAsync(Product entity)
-        {
-            _db.Product.Remove(entity);
-            await SaveAsync();
-        }
-
-        public async Task SaveAsync()
-        {
+            entity.UpdateDate= DateTime.Now;
+            _db.Product.Update(entity);
             await _db.SaveChangesAsync();
-        }
-
-        public async Task UpdateAsync(Product entity)
-        {
-             _db.Product.Update(entity);
-            await SaveAsync();
+            return entity;
         }
     }
 }

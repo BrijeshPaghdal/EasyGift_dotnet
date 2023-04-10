@@ -164,7 +164,9 @@ namespace EasyGift_API.Controllers
             var product = await _dbProduct.GetAsync(u=>u.ProductId == id);
             if(product == null) return NotFound();
             await _dbProduct.RemoveAsync(product);
-            return Ok();
+            Dictionary<string,object> responseSuccess= new Dictionary<string, object>();
+            responseSuccess.Add("message","Record Deleted Successfully");
+            return Ok(responseSuccess);
         }
     }
 }
