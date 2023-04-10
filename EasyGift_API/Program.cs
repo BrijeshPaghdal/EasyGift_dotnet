@@ -18,6 +18,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(option =>
 builder.Services.AddAutoMapper(typeof(MappingConfig));
 //Resigter Repository
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<IAddressRepository, AddressRepository>();
 
 //Add NewtwonsoftJson
 builder.Services.AddControllers(option => {

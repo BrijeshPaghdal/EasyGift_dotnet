@@ -15,57 +15,56 @@ using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace EasyGift_API.Controllers
 {
-    [Route("api/EasyGift/Product")]
+    [Route("api/EasyGift/Address")]
     [ApiController]
-    public class ProductController : ControllerBase
+    public class AddressController : ControllerBase
     {
-        private readonly IProductRepository _dbProduct;
+        private readonly IAddressRepository _dbAddress;
         private readonly IMapper _mapper;
 
-        public ProductController(IProductRepository dbProduct,IMapper mapper)
+        public AddressController(IAddressRepository dbAddress,IMapper mapper)
         {
-            _dbProduct = dbProduct;
+            _dbAddress = dbAddress;
             _mapper= mapper;
         }
         
         //Http Requests
 
-        [HttpGet(Name = "GetProducts")]
-        public async Task<ActionResult<List<Dictionary<string, object>>>> GetProducts([FromQuery] string[] columns)
+        [HttpGet(Name = "GetAddresses")]
+        public async Task<ActionResult<List<Dictionary<string, object>>>> GetAddresses([FromQuery] string[] columns)
         {
-            IEnumerable<Product> products = await _dbProduct.GetAllAsync();
+            IEnumerable<Address> Addresses = await _dbAddress.GetAllAsync();
             if (columns.Length != 0)
             {
-                List<Dictionary<string, object>> fetchedProducts = new List<Dictionary<string, object>>();
-                foreach(var product in products)
+                List<Dictionary<string, object>> fetchedAddresses = new List<Dictionary<string, object>>();
+                foreach(var address in Addresses)
                 {
-                    var response = CustomMethods.fetchPerticularColumns(columns, product);
+                    var response = CustomMethods.fetchPerticularColumns(columns, address);
                     if (response.ContainsKey("Error"))
                     {
                         return BadRequest(response["Error"]);
                     }
-                   fetchedProducts.Add(response);
+                   fetchedAddresses.Add(response);
                 }
-                return Ok(fetchedProducts);
+                return Ok(fetchedAddresses);
             }
-            return Ok(_mapper.Map<List<ProductDTO>>(products));
+            return Ok(_mapper.Map<List<AddressDTO>>(Addresses));
         }
 
      
-        [HttpGet("{id:int}", Name = "GetProductById")]
+        [HttpGet("{id:int}", Name = "GetAddressById")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        //public async Task<ActionResult<ProductDTO>> GetProductWithSpecificColumn(int id,[FromBody] string column)
-        public async Task<ActionResult<Dictionary<string,object>>> GetProduct(int id,[FromQuery] string[] columns)
+        public async Task<ActionResult<Dictionary<string,object>>> GetAddress(int id,[FromQuery] string[] columns)
         {
             if (id == 0)
                 return BadRequest();
-            var Products = await _dbProduct.GetAsync(u => u.ProductId == id);
+            var addresses = await _dbAddress.GetAsync(u => u.AddressId == id);
 
-            if (Products == null)
+            if (addresses == null)
                 return NotFound();
-            ProductDTO model = _mapper.Map<ProductDTO>(Products);
+            AddressDTO model = _mapper.Map<AddressDTO>(addresses);
 
             if (columns.Length != 0) {
                 var response = CustomMethods.fetchPerticularColumns(columns, model);
@@ -83,34 +82,34 @@ namespace EasyGift_API.Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<CreateAddressDTO>> CreateProduct([FromBody] CreateAddressDTO createProductDTO)
+        public async Task<ActionResult<CreateAddressDTO>> CreateAddress([FromBody] CreateAddressDTO createAddressDTO)
         {
-            if (createProductDTO == null)
-                return BadRequest(createProductDTO);
-            Product model = _mapper.Map<Product>(createProductDTO);
-            await _dbProduct.CreateAsync(model);
-            return CreatedAtRoute("GetProductById", new { id = model.ProductId }, model);
+            if (createAddressDTO == null)
+                return BadRequest(createAddressDTO);
+            Address model = _mapper.Map<Address>(createAddressDTO);
+            await _dbAddress.CreateAsync(model);
+            return CreatedAtRoute("GetAddressById", new { id = model.AddressId }, model);
         }
 
-        [HttpPatch("{id:int}", Name = "UpdateProduct")]
+        [HttpPatch("{id:int}", Name = "UpdateAddress")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
 
-        public async Task<IActionResult> UpdateProduct(int id, [FromBody] Dictionary<string, object> patchDTO){
+        public async Task<IActionResult> UpdateAddress(int id, [FromBody] Dictionary<string, object> patchDTO){
             if(patchDTO == null || id==0)
                 return BadRequest();
-            var product =await _dbProduct.GetAsync(u => u.ProductId == id,tracked:false);
-            if(product == null)
+            var address =await _dbAddress.GetAsync(u => u.AddressId == id,tracked:false);
+            if(address == null)
                 return NotFound();
 
             foreach (var update in patchDTO)
             {
-                var property = product.GetType().GetProperty(update.Key);
+                var property = address.GetType().GetProperty(update.Key);
 
                 if (property != null)
                 {
                     var convertedValue = Convert.ChangeType(update.Value, property.PropertyType);
-                    property.SetValue(product, convertedValue);
+                    property.SetValue(address, convertedValue);
                 }
                 else
                 {
@@ -118,29 +117,29 @@ namespace EasyGift_API.Controllers
                 }
             }
 
-            UpdateProductDTO updatedProduct = _mapper.Map<UpdateProductDTO>(product);
-            Product model = _mapper.Map<Product>(updatedProduct);
+            UpdateAddressDTO updatedAddress = _mapper.Map<UpdateAddressDTO>(address);
+            Address model = _mapper.Map<Address>(updatedAddress);
 
-            await _dbProduct.UpdateAsync(model);
+            await _dbAddress.UpdateAsync(model);
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            return CreatedAtRoute("GetProductById", new { id = model.ProductId }, model);
+            return CreatedAtRoute("GetAddressById", new { id = model.AddressId }, model);
 
         }
 
-        [HttpDelete("{id:int}", Name = "DeleteProduct")]
+        [HttpDelete("{id:int}", Name = "DeleteAddress")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> DeleteProduct(int id)
+        public async Task<IActionResult> DeleteAddress(int id)
         {
             if(id == 0)
                 return BadRequest();
-            var product = await _dbProduct.GetAsync(u=>u.ProductId == id);
-            if(product == null) return NotFound();
-            await _dbProduct.RemoveAsync(product);
+            var address = await _dbAddress.GetAsync(u=>u.AddressId == id);
+            if(address == null) return NotFound();
+            await _dbAddress.RemoveAsync(address);
             Dictionary<string,object> responseSuccess= new Dictionary<string, object>();
             responseSuccess.Add("message","Record Deleted Successfully");
             return Ok(responseSuccess);

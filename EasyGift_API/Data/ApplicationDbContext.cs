@@ -7,7 +7,7 @@ namespace EasyGift_API.Data
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { 
         }
-        public DbSet<Address> Addresse { get; set; }
+        public DbSet<Address> Address { get; set; }
         public DbSet<Admin> Admin { get; set; }
         public DbSet<BankDetails> BankDetails { get; set; }
         public DbSet<Category> Category { get; set; }
