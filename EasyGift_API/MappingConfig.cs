@@ -17,6 +17,14 @@ namespace EasyGift_API
             CreateMap<Address, AddressDTO>().ReverseMap();
             CreateMap<Address, CreateAddressDTO>().ReverseMap();
             CreateMap<Address, UpdateAddressDTO>().ReverseMap();
+            
+            CreateMap<Admin, AdminDTO>().ReverseMap();
+            CreateMap<Admin, CreateAdminDTO>().ReverseMap();
+            CreateMap<Admin, UpdateAdminDTO>().ReverseMap();
+            
+            CreateMap<BankDetails, BankDetailsDTO>().ReverseMap();
+            CreateMap<BankDetails, CreateBankDetailsDTO>().ReverseMap();
+            CreateMap<BankDetails, UpdateBankDetailsDTO>().ReverseMap();
 
         }
     }

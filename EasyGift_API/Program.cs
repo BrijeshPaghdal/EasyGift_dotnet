@@ -19,6 +19,8 @@ builder.Services.AddAutoMapper(typeof(MappingConfig));
 //Resigter Repository
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IAddressRepository, AddressRepository>();
+builder.Services.AddScoped<IAdminRepository, AdminRepository>();
+builder.Services.AddScoped<IBankDetailsRepository, BankDetailsRepository>();
 
 //Add NewtwonsoftJson
 builder.Services.AddControllers(option => {

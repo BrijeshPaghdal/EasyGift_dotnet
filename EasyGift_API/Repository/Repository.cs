@@ -32,11 +32,13 @@ namespace EasyGift_API.Repository
             return await query.FirstOrDefaultAsync();
         }
 
-        public async Task<List<T>> GetAllAsync(Expression<Func<T, bool>>? filter = null)
+        public async Task<List<T>> GetAllAsync(Expression<Func<T, bool>>? filter = null, int limit = 50)
         {
             IQueryable<T> query = dbSet;
             if (filter != null)
                 query = query.Where(filter);
+            if(limit > 0)
+                query = query.Take(limit);
 
             return await query.ToListAsync();
         }
