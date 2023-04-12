@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System.Linq.Expressions;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace EasyGift_API.Controllers
@@ -31,15 +32,26 @@ namespace EasyGift_API.Controllers
         //Http Requests
 
         [HttpGet(Name = "GetProducts")]
-        public async Task<ActionResult<List<Dictionary<string, object>>>> GetProducts([FromQuery] string[] columns)
+        public async Task<ActionResult<List<Dictionary<string, object>>>> GetProducts([FromQuery] string[] columns, [FromQuery] string? filter= null)
         {
-            IEnumerable<Product> products = await _dbProduct.GetAllAsync();
+            IEnumerable<Product> products;
+            if (filter!=null)
+            {
+                var Filter = CustomMethods<Product>.ConvertToExpression<Product>(filter);
+                 products = await _dbProduct.GetAllAsync(filter: Filter);
+            }
+            else
+            {
+                 products = await _dbProduct.GetAllAsync();
+            }
+            if (products.Count() == 0)
+                return NotFound();
             if (columns.Length != 0)
             {
                 List<Dictionary<string, object>> fetchedProducts = new List<Dictionary<string, object>>();
                 foreach(var product in products)
                 {
-                    var response = CustomMethods.fetchPerticularColumns(columns, product);
+                    var response = CustomMethods<Product>.fetchPerticularColumns(columns, product);
                     if (response.ContainsKey("Error"))
                     {
                         return BadRequest(response["Error"]);
@@ -56,19 +68,27 @@ namespace EasyGift_API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        //public async Task<ActionResult<ProductDTO>> GetProductWithSpecificColumn(int id,[FromBody] string column)
-        public async Task<ActionResult<Dictionary<string,object>>> GetProduct(int id,[FromQuery] string[] columns)
+        public async Task<ActionResult<Dictionary<string,object>>> GetProduct(int id,[FromQuery] string[] columns, [FromQuery] string? filter = null)
         {
             if (id == 0)
                 return BadRequest();
-            var Products = await _dbProduct.GetAsync(u => u.ProductId == id);
+            Product product=new Product();
+            if (filter != null)
+            {
+                var Filter = CustomMethods<Product>.ConvertToExpression<Product>(filter+ "&& u => u.ProductId =="+id);
+                product = await _dbProduct.GetAsync(filter: Filter);
+            }
+            else
+            {
+                product = await _dbProduct.GetAsync(u => u.ProductId == id);
+            }
 
-            if (Products == null)
+            if (product == null)
                 return NotFound();
-            ProductDTO model = _mapper.Map<ProductDTO>(Products);
+            ProductDTO model = _mapper.Map<ProductDTO>(product);
 
             if (columns.Length != 0) {
-                var response = CustomMethods.fetchPerticularColumns(columns, model);
+                var response = CustomMethods<Product>.fetchPerticularColumns(columns, model);
                 if (response.ContainsKey("Error"))
                 {
                     return BadRequest(response["Error"]);
@@ -77,6 +97,7 @@ namespace EasyGift_API.Controllers
             }
             return Ok(model);
         }
+
 
 
         [HttpPost]
@@ -92,11 +113,14 @@ namespace EasyGift_API.Controllers
             return CreatedAtRoute("GetProductById", new { id = model.ProductId }, model);
         }
 
+
+
         [HttpPatch("{id:int}", Name = "UpdateProduct")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
 
-        public async Task<IActionResult> UpdateProduct(int id, [FromBody] Dictionary<string, object> patchDTO){
+        public async Task<IActionResult> UpdateProduct(int id, [FromBody] Dictionary<string, object> patchDTO)
+        {
             if(patchDTO == null || id==0)
                 return BadRequest();
             var product =await _dbProduct.GetAsync(u => u.ProductId == id,tracked:false);
@@ -129,6 +153,8 @@ namespace EasyGift_API.Controllers
             return CreatedAtRoute("GetProductById", new { id = model.ProductId }, model);
 
         }
+
+
 
         [HttpDelete("{id:int}", Name = "DeleteProduct")]
         [ProducesResponseType(StatusCodes.Status200OK)]

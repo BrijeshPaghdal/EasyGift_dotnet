@@ -31,15 +31,26 @@ namespace EasyGift_API.Controllers
         //Http Requests
 
         [HttpGet(Name = "GetAdmins")]
-        public async Task<ActionResult<List<Dictionary<string, object>>>> GetAdmins([FromQuery] string[] columns)
+        public async Task<ActionResult<List<Dictionary<string, object>>>> GetAdmins([FromQuery] string[] columns, [FromQuery] string? filter = null)
         {
-            IEnumerable<Admin> admins = await _dbAdmin.GetAllAsync();
+            IEnumerable<Admin> admins;
+            if (filter != null)
+            {
+                var Filter = CustomMethods<Admin>.ConvertToExpression<Admin>(filter);
+                admins = await _dbAdmin.GetAllAsync(filter: Filter);
+            }
+            else
+            {
+                admins = await _dbAdmin.GetAllAsync();
+            }
+            if (admins.Count() == 0)
+                return NotFound();
             if (columns.Length != 0)
             {
                 List<Dictionary<string, object>> fetchedAdmins = new List<Dictionary<string, object>>();
                 foreach(var admin in admins)
                 {
-                    var response = CustomMethods.fetchPerticularColumns(columns, admin);
+                    var response = CustomMethods<Admin>.fetchPerticularColumns(columns, admin);
                     if (response.ContainsKey("Error"))
                     {
                         return BadRequest(response["Error"]);
@@ -56,18 +67,26 @@ namespace EasyGift_API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<Dictionary<string,object>>> GetAdmin(int id,[FromQuery] string[] columns)
+        public async Task<ActionResult<Dictionary<string,object>>> GetAdmin(int id,[FromQuery] string[] columns, [FromQuery] string? filter = null)
         {
             if (id == 0)
                 return BadRequest();
-            var admins = await _dbAdmin.GetAsync(u => u.AdminId == id);
-
-            if (admins == null)
+            Admin admin = new Admin();
+            if (filter != null)
+            {
+                var Filter = CustomMethods<Admin>.ConvertToExpression<Admin>(filter + "&& u => u.AdminId ==" + id);
+                admin = await _dbAdmin.GetAsync(filter: Filter);
+            }
+            else
+            {
+                admin = await _dbAdmin.GetAsync(u => u.AdminId == id);
+            }
+            if (admin == null)
                 return NotFound();
-            AdminDTO model = _mapper.Map<AdminDTO>(admins);
+            AdminDTO model = _mapper.Map<AdminDTO>(admin);
 
             if (columns.Length != 0) {
-                var response = CustomMethods.fetchPerticularColumns(columns, model);
+                var response = CustomMethods<Admin>.fetchPerticularColumns(columns, model);
                 if (response.ContainsKey("Error"))
                 {
                     return BadRequest(response["Error"]);

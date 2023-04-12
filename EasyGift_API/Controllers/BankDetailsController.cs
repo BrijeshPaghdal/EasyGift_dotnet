@@ -31,9 +31,20 @@ namespace EasyGift_API.Controllers
         //Http Requests
 
         [HttpGet(Name = "GetBankDetails")]
-        public async Task<ActionResult<List<Dictionary<string, object>>>> GetBankDetails([FromQuery] string[] columns, [FromQuery] int limit=50)
+        public async Task<ActionResult<List<Dictionary<string, object>>>> GetBankDetails([FromQuery] string[] columns, [FromQuery] int limit=0, [FromQuery] string? filter = null)
         {
             IEnumerable<BankDetails> bankDetails;
+            if (filter != null)
+            {
+                var Filter = CustomMethods<BankDetails>.ConvertToExpression<BankDetails>(filter);
+                bankDetails = await _dbBankDetail.GetAllAsync(filter: Filter);
+            }
+            else
+            {
+                bankDetails = await _dbBankDetail.GetAllAsync();
+            }
+            if (bankDetails.Count() == 0)
+                return NotFound();
             if (limit >0)
             {
                 bankDetails = await _dbBankDetail.GetAllAsync(limit:limit);
@@ -47,7 +58,7 @@ namespace EasyGift_API.Controllers
                 List<Dictionary<string, object>> fetchedBankDetails = new List<Dictionary<string, object>>();
                 foreach(var BankDetail in bankDetails)
                 {
-                    var response = CustomMethods.fetchPerticularColumns(columns, BankDetail);
+                    var response = CustomMethods<BankDetails>.fetchPerticularColumns(columns, BankDetail);
                     if (response.ContainsKey("Error"))
                     {
                         return BadRequest(response["Error"]);
@@ -64,18 +75,26 @@ namespace EasyGift_API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<Dictionary<string,object>>> GetBankDetail(int id,[FromQuery] string[] columns)
+        public async Task<ActionResult<Dictionary<string,object>>> GetBankDetail(int id,[FromQuery] string[] columns, [FromQuery] string? filter = null)
         {
             if (id == 0)
                 return BadRequest();
-            var bankDetails = await _dbBankDetail.GetAsync(u => u.BankId == id);
-
-            if (bankDetails == null)
+            BankDetails bankDetail = new BankDetails();
+            if (filter != null)
+            {
+                var Filter = CustomMethods<BankDetails>.ConvertToExpression<BankDetails>(filter + "&& u => u.BankId ==" + id);
+                bankDetail = await _dbBankDetail.GetAsync(filter: Filter);
+            }
+            else
+            {
+                bankDetail = await _dbBankDetail.GetAsync(u => u.BankId == id);
+            }
+            if (bankDetail == null)
                 return NotFound();
-            BankDetailsDTO model = _mapper.Map<BankDetailsDTO>(bankDetails);
+            BankDetailsDTO model = _mapper.Map<BankDetailsDTO>(bankDetail);
 
             if (columns.Length != 0) {
-                var response = CustomMethods.fetchPerticularColumns(columns, model);
+                var response = CustomMethods<BankDetails>.fetchPerticularColumns(columns, model);
                 if (response.ContainsKey("Error"))
                 {
                     return BadRequest(response["Error"]);

@@ -31,15 +31,26 @@ namespace EasyGift_API.Controllers
         //Http Requests
 
         [HttpGet(Name = "GetAddresses")]
-        public async Task<ActionResult<List<Dictionary<string, object>>>> GetAddresses([FromQuery] string[] columns)
+        public async Task<ActionResult<List<Dictionary<string, object>>>> GetAddresses([FromQuery] string[] columns, [FromQuery] string? filter = null)
         {
-            IEnumerable<Address> Addresses = await _dbAddress.GetAllAsync();
+            IEnumerable<Address> addresses;
+            if (filter != null)
+            {
+                var Filter = CustomMethods<Address>.ConvertToExpression<Address>(filter);
+                addresses = await _dbAddress.GetAllAsync(filter: Filter);
+            }
+            else
+            {   
+                addresses = await _dbAddress.GetAllAsync();
+            }
+            if (addresses.Count() == 0)
+                return NotFound();
             if (columns.Length != 0)
             {
                 List<Dictionary<string, object>> fetchedAddresses = new List<Dictionary<string, object>>();
-                foreach(var address in Addresses)
+                foreach(var address in addresses)
                 {
-                    var response = CustomMethods.fetchPerticularColumns(columns, address);
+                    var response = CustomMethods<Address>.fetchPerticularColumns(columns, address);
                     if (response.ContainsKey("Error"))
                     {
                         return BadRequest(response["Error"]);
@@ -48,7 +59,7 @@ namespace EasyGift_API.Controllers
                 }
                 return Ok(fetchedAddresses);
             }
-            return Ok(_mapper.Map<List<AddressDTO>>(Addresses));
+            return Ok(_mapper.Map<List<AddressDTO>>(addresses));
         }
 
      
@@ -56,18 +67,28 @@ namespace EasyGift_API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<Dictionary<string,object>>> GetAddress(int id,[FromQuery] string[] columns)
+        public async Task<ActionResult<Dictionary<string,object>>> GetAddress(int id,[FromQuery] string[] columns, [FromQuery] string? filter = null)
         {
             if (id == 0)
                 return BadRequest();
-            var addresses = await _dbAddress.GetAsync(u => u.AddressId == id);
 
-            if (addresses == null)
+            Address address = new Address();
+            if (filter != null)
+            {
+                var Filter = CustomMethods<Address>.ConvertToExpression<Address>(filter + "&& u => u.AddressId ==" + id);
+                address = await _dbAddress.GetAsync(filter: Filter);
+            }
+            else
+            {
+                address = await _dbAddress.GetAsync(u => u.AddressId == id);
+            }
+
+            if (address == null)
                 return NotFound();
-            AddressDTO model = _mapper.Map<AddressDTO>(addresses);
+            AddressDTO model = _mapper.Map<AddressDTO>(address);
 
             if (columns.Length != 0) {
-                var response = CustomMethods.fetchPerticularColumns(columns, model);
+                var response = CustomMethods<Address>.fetchPerticularColumns(columns, model);
                 if (response.ContainsKey("Error"))
                 {
                     return BadRequest(response["Error"]);

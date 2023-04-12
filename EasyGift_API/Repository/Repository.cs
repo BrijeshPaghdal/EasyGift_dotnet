@@ -25,6 +25,8 @@ namespace EasyGift_API.Repository
         public async Task<T> GetAsync(Expression<Func<T, bool>>? filter = null, bool tracked = true)
         {
             IQueryable<T> query = dbSet;
+            if (filter != null)
+                query = query.Where(filter);
             if (!tracked)
                 query = query.AsNoTracking();
             if (filter != null)
@@ -32,7 +34,7 @@ namespace EasyGift_API.Repository
             return await query.FirstOrDefaultAsync();
         }
 
-        public async Task<List<T>> GetAllAsync(Expression<Func<T, bool>>? filter = null, int limit = 50)
+        public async Task<List<T>> GetAllAsync(Expression<Func<T, bool>>? filter = null, int limit = 0)
         {
             IQueryable<T> query = dbSet;
             if (filter != null)
