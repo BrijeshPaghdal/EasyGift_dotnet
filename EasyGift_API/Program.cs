@@ -18,9 +18,14 @@ builder.Services.AddDbContext<ApplicationDbContext>(option =>
 builder.Services.AddAutoMapper(typeof(MappingConfig));
 //Resigter Repository
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<IAddressRepository, AddressRepository>();
+builder.Services.AddScoped<IAdminRepository, AdminRepository>();
+builder.Services.AddScoped<IBankDetailsRepository, BankDetailsRepository>();
+builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 
 //Add NewtwonsoftJson
-builder.Services.AddControllers(option => {
+builder.Services.AddControllers(option =>
+{
     //option.ReturnHttpNotAcceptable=true;
 }).AddNewtonsoftJson().AddXmlDataContractSerializerFormatters();
 
@@ -30,6 +35,10 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+//Add console
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole();
 
 var app = builder.Build();
 

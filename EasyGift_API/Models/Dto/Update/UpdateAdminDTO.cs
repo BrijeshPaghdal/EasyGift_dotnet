@@ -1,23 +1,19 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace EasyGift_API.Models
+namespace EasyGift_API.Models.Dto.Update
 {
-    public class Admin
+    public class UpdateAdminDTO
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Required]
         public int Id { get; set; }
 
-        [Required]
         [MaxLength(20)]
         public string AdminName { get; set; }
 
         [MaxLength(20)]
-        [Required]
         public string AdminEmail { get; set; }
 
-        [Required]
         [MaxLength(200)]
         public string AdminPassword { get; set; }
 

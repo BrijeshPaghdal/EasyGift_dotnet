@@ -1,27 +1,21 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace EasyGift_API.Models
+namespace EasyGift_API.Models.Dto.Update
 {
-    public class Address
+    public class UpdateAddressDTO
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
-
-        [Required]
-        [ForeignKey("Shop")]
+        public int AddressId { get; set; }
         public int ShopId { get; set; }
-        
+
         [MaxLength(200)]
         public string? ShopAddress { get; set; }
 
+        [Required]
         public int? PinCode { get; set; }
 
-        [Required]
         [ForeignKey("Cities")]
         public int CityId { get; set; }
-        //changes done by yogesh
 
     }
 }

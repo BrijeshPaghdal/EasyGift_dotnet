@@ -1,19 +1,17 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace EasyGift_API.Models
+namespace EasyGift_API.Models.Dto.Update
 {
-    public class Category
+    public class UpdateCategoryDTO
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
-        [Required]
+        public int CategoryId { get; set; }
+
         [MaxLength(20)]
         public string CategoryName { get; set; }
-        [Required]
+
         [MaxLength(100)]
         public string CategoryImageName { get; set; }
-       
+
     }
 }

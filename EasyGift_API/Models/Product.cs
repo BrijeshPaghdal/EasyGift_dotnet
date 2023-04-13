@@ -7,7 +7,7 @@ namespace EasyGift_API.Models
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int ProductId { get; set; }
+        public int Id { get; set; }
         [ForeignKey("Shop")]
         public int ShopId { get; set; }
         [ForeignKey("SubCategory")]

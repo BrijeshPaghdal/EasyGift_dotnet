@@ -3,8 +3,8 @@ using System.Linq.Expressions;
 
 namespace EasyGift_API.Repository.IRepository
 {
-    public interface IProductRepository : IRepository<Product>
+    public interface IAddressRepository : IRepository<Address>
     {
-        Task<Product> UpdateAsync(Product entity);
+        Task<Address> UpdateAsync(Address entity);
     }
 }

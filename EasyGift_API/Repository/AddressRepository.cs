@@ -9,18 +9,17 @@ using System.Linq.Expressions;
 
 namespace EasyGift_API.Repository
 {
-    public class ProductRepository : Repository<Product>, IProductRepository
+    public class AddressRepository : Repository<Address>, IAddressRepository
     {
         private readonly ApplicationDbContext _db;
-       public ProductRepository(ApplicationDbContext db):base(db) 
+       public AddressRepository(ApplicationDbContext db):base(db) 
         {
             _db = db;
         }
        
-        public async Task<Product> UpdateAsync(Product entity)
+        public async Task<Address> UpdateAsync(Address entity)
         {
-            entity.UpdateDate= DateTime.Now;
-            _db.Product.Update(entity);
+            _db.Address.Update(entity);
             await _db.SaveChangesAsync();
             return entity;
         }

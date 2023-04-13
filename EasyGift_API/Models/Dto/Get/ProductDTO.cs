@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace EasyGift_API.Models.Dto
+namespace EasyGift_API.Models.Dto.Get
 {
     public class ProductDTO
     {
@@ -15,6 +15,5 @@ namespace EasyGift_API.Models.Dto
         public int ProductStatus { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime? UpdateDate { get; set; }
-
     }
 }

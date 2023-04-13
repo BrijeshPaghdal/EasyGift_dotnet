@@ -1,29 +1,18 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace EasyGift_API.Models
+namespace EasyGift_API.Models.Dto.Get
 {
-    public class BankDetails
+    public class BankDetailsDTO
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
-        [MaxLength(50)]
+        public int BankId { get; set; }
         public string? BankName { get; set; }
-        [MaxLength(11)]
         public string? BankIFSC { get; set; }
-        [MaxLength(100)]
         public string? BankBranch { get; set; }
-        [MaxLength(200)]
         public string? BankAddress { get; set; }
-        [MaxLength(50)]
         public string? BankCity { get; set; }
-        [MaxLength(50)]
         public string? BankDistrict { get; set; }
-        [MaxLength(30)]
         public string? BankState { get; set; }
-        [MaxLength(50)]
         public string? BankCountry { get; set; }
-
     }
 }

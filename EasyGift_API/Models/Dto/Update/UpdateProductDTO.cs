@@ -1,28 +1,21 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
-namespace EasyGift_API.Models.Dto
+namespace EasyGift_API.Models.Dto.Update
 {
-    public class CreateProductDTO
+    public class UpdateProductDTO
     {
-        [Required]
-        [ForeignKey("Shop")]
+        public int ProductId { get; set; }
         public int ShopId { get; set; }
-        [Required]
-        [ForeignKey("SubCategory")]
         public int SubCategoryId { get; set; }
-        [Required]
         [MaxLength(30)]
         public string ProductName { get; set; }
-        [Required]
         [MaxLength(30)]
         public string CompanyName { get; set; }
-        [Required]
         public int Price { get; set; }
-        [Required]
         public int AvailableQuantity { get; set; }
-        [Required]
         public string ProductDiscription { get; set; }
-      
+        public int ProductStatus { get; set; }
+        private DateTime UpdateDate { get; set; }
+
     }
 }
