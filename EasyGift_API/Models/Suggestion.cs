@@ -7,7 +7,7 @@ namespace EasyGift_API.Models
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int SuggestionId { get; set; }
+        public int Id { get; set; }
         public string SuggestedFor { get; set; }
         public string Gender { get; set; }
         public int MinAge { get; set; }

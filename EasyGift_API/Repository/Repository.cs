@@ -14,7 +14,7 @@ namespace EasyGift_API.Repository
         public Repository(ApplicationDbContext db)
         {
             _db = db;
-            this.dbSet =  _db.Set<T>();
+            this.dbSet = _db.Set<T>();
         }
         public async Task CreateAsync(T entity)
         {
@@ -39,13 +39,18 @@ namespace EasyGift_API.Repository
             IQueryable<T> query = dbSet;
             if (filter != null)
                 query = query.Where(filter);
-            if(limit > 0)
+            if (limit > 0)
                 query = query.Take(limit);
 
             return await query.ToListAsync();
         }
 
-
+        public async Task<T> UpdateAsync(T entity)
+        {
+            _db.Update(entity);
+            await _db.SaveChangesAsync();
+            return entity;
+        }
         public async Task RemoveAsync(T entity)
         {
             dbSet.Remove(entity);

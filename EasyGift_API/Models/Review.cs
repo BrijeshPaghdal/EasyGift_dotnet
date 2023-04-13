@@ -7,10 +7,10 @@ namespace EasyGift_API.Models
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int ReviewId { get; set; }
+        public int Id { get; set; }
 
         [ForeignKey("Order")]
-        public int Id { get; set; }
+        public int OrderId { get; set; }
         public int Rating { get; set; }
         public string ReviewDetail { get; set; }
         public DateTime ReviewDate { get; set; }

@@ -5,7 +5,7 @@ namespace EasyGift_API.Models.Dto.Get
 {
     public class AdminDTO
     {
-        public int AdminId { get; set; }
+        public int Id { get; set; }
         public string AdminName { get; set; }
         public string AdminEmail { get; set; }
         public string AdminPassword { get; set; }

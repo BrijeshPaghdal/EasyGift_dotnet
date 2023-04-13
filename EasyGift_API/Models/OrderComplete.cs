@@ -7,11 +7,11 @@ namespace EasyGift_API.Models
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int OrderCompleteId { get; set; }
+        public int Id { get; set; }
 
         [ForeignKey("Order")]
-        public int Id { get; set; }
-        
+        public int OrderId { get; set; }
+
         public int OrderCompleteStatus { get; set; }
 
     }

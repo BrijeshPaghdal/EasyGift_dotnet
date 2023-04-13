@@ -7,7 +7,7 @@ namespace EasyGift_API.Models
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int CustomerId { get; set; }
+        public int Id { get; set; }
         [Required]
         [MaxLength(20)]
         public string CustomerName { get; set; }

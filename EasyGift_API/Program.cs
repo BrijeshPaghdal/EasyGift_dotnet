@@ -21,9 +21,11 @@ builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IAddressRepository, AddressRepository>();
 builder.Services.AddScoped<IAdminRepository, AdminRepository>();
 builder.Services.AddScoped<IBankDetailsRepository, BankDetailsRepository>();
+builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 
 //Add NewtwonsoftJson
-builder.Services.AddControllers(option => {
+builder.Services.AddControllers(option =>
+{
     //option.ReturnHttpNotAcceptable=true;
 }).AddNewtonsoftJson().AddXmlDataContractSerializerFormatters();
 

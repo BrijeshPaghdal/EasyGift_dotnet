@@ -7,7 +7,7 @@ namespace EasyGift_API.Models
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int ForgotPassowrdId { get; set; }
+        public int Id { get; set; }
 
         [Required]
         [ForeignKey("CustomerLoginId")]

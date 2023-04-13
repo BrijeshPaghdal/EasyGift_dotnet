@@ -23,71 +23,72 @@ namespace EasyGift_API.Controllers
         private readonly IProductRepository _dbProduct;
         private readonly IMapper _mapper;
 
-        public ProductController(IProductRepository dbProduct,IMapper mapper)
+        public ProductController(IProductRepository dbProduct, IMapper mapper)
         {
             _dbProduct = dbProduct;
-            _mapper= mapper;
+            _mapper = mapper;
         }
-        
+
         //Http Requests
 
         [HttpGet(Name = "GetProducts")]
-        public async Task<ActionResult<List<Dictionary<string, object>>>> GetProducts([FromQuery] string[] columns, [FromQuery] string? filter= null)
+        public async Task<ActionResult<List<Dictionary<string, object>>>> GetProducts([FromQuery] string[] columns, [FromQuery] string? filter = null)
         {
             IEnumerable<Product> products;
-            if (filter!=null)
+            if (filter != null)
             {
                 var Filter = CustomMethods<Product>.ConvertToExpression<Product>(filter);
-                 products = await _dbProduct.GetAllAsync(filter: Filter);
+                products = await _dbProduct.GetAllAsync(filter: Filter);
             }
             else
             {
-                 products = await _dbProduct.GetAllAsync();
+                products = await _dbProduct.GetAllAsync();
             }
             if (products.Count() == 0)
                 return NotFound();
             if (columns.Length != 0)
             {
                 List<Dictionary<string, object>> fetchedProducts = new List<Dictionary<string, object>>();
-                foreach(var product in products)
+                foreach (var product in products)
                 {
                     var response = CustomMethods<Product>.fetchPerticularColumns(columns, product);
                     if (response.ContainsKey("Error"))
                     {
                         return BadRequest(response["Error"]);
                     }
-                   fetchedProducts.Add(response);
+                    fetchedProducts.Add(response);
                 }
                 return Ok(fetchedProducts);
             }
             return Ok(_mapper.Map<List<ProductDTO>>(products));
         }
 
-     
+
         [HttpGet("{id:int}", Name = "GetProductById")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<Dictionary<string,object>>> GetProduct(int id,[FromQuery] string[] columns, [FromQuery] string? filter = null)
+        public async Task<ActionResult<Dictionary<string, object>>> GetProduct(int id, [FromQuery] string[] columns, [FromQuery] string? filter = null)
         {
             if (id == 0)
                 return BadRequest();
-            Product product=new Product();
+            Product product = new Product();
             if (filter != null)
             {
-                var Filter = CustomMethods<Product>.ConvertToExpression<Product>(filter+ "&& u => u.ProductId =="+id);
+                var Filter = CustomMethods<Product>.ConvertToExpression<Product>(filter + "&& u => u.ProductId ==" + id);
                 product = await _dbProduct.GetAsync(filter: Filter);
             }
             else
             {
-                product = await _dbProduct.GetAsync(u => u.ProductId == id);
+                product = await _dbProduct.GetAsync(u => u.Id == id);
             }
 
             if (product == null)
                 return NotFound();
             ProductDTO model = _mapper.Map<ProductDTO>(product);
 
-            if (columns.Length != 0) {
+            if (columns.Length != 0)
+            {
                 var response = CustomMethods<Product>.fetchPerticularColumns(columns, model);
                 if (response.ContainsKey("Error"))
                 {
@@ -110,7 +111,7 @@ namespace EasyGift_API.Controllers
                 return BadRequest(createProductDTO);
             Product model = _mapper.Map<Product>(createProductDTO);
             await _dbProduct.CreateAsync(model);
-            return CreatedAtRoute("GetProductById", new { id = model.ProductId }, model);
+            return CreatedAtRoute("GetProductById", new { id = model.Id }, model);
         }
 
 
@@ -121,10 +122,10 @@ namespace EasyGift_API.Controllers
 
         public async Task<IActionResult> UpdateProduct(int id, [FromBody] Dictionary<string, object> patchDTO)
         {
-            if(patchDTO == null || id==0)
+            if (patchDTO == null || id == 0)
                 return BadRequest();
-            var product =await _dbProduct.GetAsync(u => u.ProductId == id,tracked:false);
-            if(product == null)
+            var product = await _dbProduct.GetAsync(u => u.Id == id, tracked: false);
+            if (product == null)
                 return NotFound();
 
             foreach (var update in patchDTO)
@@ -150,7 +151,7 @@ namespace EasyGift_API.Controllers
             {
                 return BadRequest(ModelState);
             }
-            return CreatedAtRoute("GetProductById", new { id = model.ProductId }, model);
+            return CreatedAtRoute("GetProductById", new { id = model.Id }, model);
 
         }
 
@@ -162,13 +163,13 @@ namespace EasyGift_API.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> DeleteProduct(int id)
         {
-            if(id == 0)
+            if (id == 0)
                 return BadRequest();
-            var product = await _dbProduct.GetAsync(u=>u.ProductId == id);
-            if(product == null) return NotFound();
+            var product = await _dbProduct.GetAsync(u => u.Id == id);
+            if (product == null) return NotFound();
             await _dbProduct.RemoveAsync(product);
-            Dictionary<string,object> responseSuccess= new Dictionary<string, object>();
-            responseSuccess.Add("message","Record Deleted Successfully");
+            Dictionary<string, object> responseSuccess = new Dictionary<string, object>();
+            responseSuccess.Add("message", "Record Deleted Successfully");
             return Ok(responseSuccess);
         }
     }

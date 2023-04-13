@@ -7,12 +7,12 @@ namespace EasyGift_API.Models
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int AdminId { get; set; }
+        public int Id { get; set; }
 
         [Required]
         [MaxLength(20)]
         public string AdminName { get; set; }
-        
+
         [MaxLength(20)]
         [Required]
         public string AdminEmail { get; set; }

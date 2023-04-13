@@ -5,6 +5,6 @@ namespace EasyGift_API.Repository.IRepository
 {
     public interface IAdminRepository : IRepository<Admin>
     {
-        Task<Admin> UpdateAsync(Admin entity);
+        //Task<Admin> UpdateAsync(Admin entity);
     }
 }

@@ -5,7 +5,8 @@ namespace EasyGift_API.Models.Dto.Update
 {
     public class UpdateAdminDTO
     {
-        public int AdminId { get; set; }
+        [Required]
+        public int Id { get; set; }
 
         [MaxLength(20)]
         public string AdminName { get; set; }

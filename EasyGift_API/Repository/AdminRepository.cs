@@ -12,16 +12,16 @@ namespace EasyGift_API.Repository
     public class AdminRepository : Repository<Admin>, IAdminRepository
     {
         private readonly ApplicationDbContext _db;
-       public AdminRepository(ApplicationDbContext db):base(db) 
+        public AdminRepository(ApplicationDbContext db) : base(db)
         {
             _db = db;
         }
-       
-        public async Task<Admin> UpdateAsync(Admin entity)
-        {
-            _db.Admin.Update(entity);
-            await _db.SaveChangesAsync();
-            return entity;
-        }
+
+        //public async Task<Admin> UpdateAsync(Admin entity)
+        //{
+        //    _db.Admin.Update(entity);
+        //    await _db.SaveChangesAsync();
+        //    return entity;
+        //}
     }
 }

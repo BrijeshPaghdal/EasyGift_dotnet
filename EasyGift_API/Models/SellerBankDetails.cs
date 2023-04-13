@@ -7,7 +7,7 @@ namespace EasyGift_API.Models
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int SellerBankId { get; set; }
+        public int Id { get; set; }
 
         [ForeignKey("Seller")]
         public int SellerId { get; set; }
