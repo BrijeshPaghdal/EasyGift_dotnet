@@ -21,7 +21,7 @@ namespace EasyGift_API.Models
         [Required]
         [ForeignKey("Cities")]
         public int CityId { get; set; }
-
+        //changes done by yogesh
 
     }
 }
