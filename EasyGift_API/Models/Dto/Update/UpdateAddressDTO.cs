@@ -5,7 +5,7 @@ namespace EasyGift_API.Models.Dto.Update
 {
     public class UpdateAddressDTO
     {
-        public int AddressId { get; set; }
+        public int Id { get; set; }
         public int ShopId { get; set; }
 
         [MaxLength(200)]

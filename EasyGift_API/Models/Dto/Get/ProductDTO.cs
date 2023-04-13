@@ -4,7 +4,7 @@ namespace EasyGift_API.Models.Dto.Get
 {
     public class ProductDTO
     {
-        public int ProductId { get; set; }
+        public int Id { get; set; }
         public int ShopId { get; set; }
         public int SubCategoryId { get; set; }
         public string? ProductName { get; set; }
