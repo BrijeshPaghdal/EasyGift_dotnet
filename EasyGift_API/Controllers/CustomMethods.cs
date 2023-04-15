@@ -1,12 +1,13 @@
 ﻿
 using EasyGift_API.Models;
+using Microsoft.AspNetCore.Http;
 using System.Linq.Dynamic.Core;
 using System.Linq.Expressions;
 using System.Net;
 
 namespace EasyGift_API.Controllers
 {
-    public class CustomMethods<T>
+    public class CustomMethods<T> where T : class
     {
         internal static Dictionary<string, object> fetchPerticularColumns(string[] columns, object model)
         {
@@ -58,7 +59,24 @@ namespace EasyGift_API.Controllers
             response.StatusCode = httpStatusCode;
             response.Result = Result;
             response.IsSuccess = IsSuccess;
-            response.Result = Result;
+            if (ErrorMessages != null)
+                response.ErrorsMessages = ErrorMessages;
+            else
+                switch (response.StatusCode)
+                {
+                    case HttpStatusCode.NotFound:
+                        response.ErrorsMessages = new List<string>() { "Record not found" };
+                        break;
+                    case HttpStatusCode.Unauthorized:
+                        response.ErrorsMessages = new List<string>() { "Not Authorization" };
+                        break;
+                    case HttpStatusCode.BadRequest:
+                        response.ErrorsMessages = new List<string>() { "Bad Request" };
+                        break;
+                    default:
+                        response.ErrorsMessages = ErrorMessages;
+                        break;
+                }
             return response;
         }
 

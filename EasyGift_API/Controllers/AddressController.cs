@@ -16,8 +16,8 @@ using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace EasyGift_API.Controllers
 {
-    [Route("api/EasyGift/Address")]
-    [ApiController]
+    //[Route("api/EasyGift/Address")]
+    //[ApiController]
     public class AddressController : GenericController<Address, AddressDTO, CreateAddressDTO, UpdateAddressDTO>
     {
         protected APIResponse _response;

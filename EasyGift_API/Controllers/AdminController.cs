@@ -15,8 +15,8 @@ using System.Net;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 namespace EasyGift_API.Controllers
 {
-    [Route("api/EasyGift/Admin")]
-    [ApiController]
+    //[Route("api/EasyGift/Admin")]
+    //[ApiController]
     public class AdminController : GenericController<Admin, AdminDTO, CreateAdminDTO, UpdateAdminDTO>
     {
         private readonly IAdminRepository _dbAdmin;

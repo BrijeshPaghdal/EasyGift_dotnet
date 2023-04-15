@@ -18,6 +18,8 @@ using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace EasyGift_API.Controllers
 {
+    [Route("api/EasyGift/[controller]")]
+    [ApiController]
     public class GenericController<TEntity, TEntityDto, TCreateDto, TUpdateDto> : Controller
         where TEntity : class, new()
         where TEntityDto : class, new()
@@ -36,55 +38,57 @@ namespace EasyGift_API.Controllers
 
         //Http Requests
 
-        [HttpGet]
-        public async Task<ActionResult<APIResponse>> GetAdmins([FromQuery] string[] columns, [FromQuery] string? filter = null)
+        [HttpGet(Name = "[controller]/GetDatas")]
+        public async Task<ActionResult<APIResponse>> GetDatas([FromQuery] string[] columns, [FromQuery] string? filter = null)
         {
             try
             {
-                IEnumerable<TEntity> admins;
+                IEnumerable<TEntity> datas;
                 if (filter != null)
                 {
                     var Filter = CustomMethods<TEntity>.ConvertToExpression<TEntity>(filter);
-                    admins = await _db.GetAllAsync(filter: Filter);
+                    datas = await _db.GetAllAsync(filter: Filter);
                 }
                 else
                 {
-                    admins = await _db.GetAllAsync();
+                    datas = await _db.GetAllAsync();
                 }
-                if (admins.Count() == 0)
+                if (datas.Count() == 0)
                 {
-                    return CustomMethods<TEntity>.ResponseBody(HttpStatusCode.NotFound, false);
+                    return NotFound(CustomMethods<TEntity>.ResponseBody(HttpStatusCode.NotFound, false));
                 }
                 if (columns.Length != 0)
                 {
-                    List<Dictionary<string, object>> fetchedAdmins = new List<Dictionary<string, object>>();
-                    foreach (var admin in admins)
+                    List<Dictionary<string, object>> fetchedDatas = new List<Dictionary<string, object>>();
+                    foreach (var data in datas)
                     {
-                        var response = CustomMethods<Admin>.fetchPerticularColumns(columns, admin);
+                        var response = CustomMethods<Admin>.fetchPerticularColumns(columns, data);
                         if (response.ContainsKey("Error"))
                         {
-                            return CustomMethods<TEntity>.ResponseBody(HttpStatusCode.BadRequest, false, Result: response["Error"]);
+                            return BadRequest(CustomMethods<TEntity>.ResponseBody(HttpStatusCode.BadRequest, false, Result: response["Error"]));
                         }
-                        fetchedAdmins.Add(response);
+                        fetchedDatas.Add(response);
                     }
-                    _response.Result = fetchedAdmins;
+                    _response.Result = fetchedDatas;
                 }
                 else
                 {
-                    _response.Result = _mapper.Map<List<TEntityDto>>(admins);
+                    _response.Result = _mapper.Map<List<TEntityDto>>(datas);
                 }
                 _response.StatusCode = HttpStatusCode.OK;
             }
             catch (Exception ex)
             {
                 _response.IsSuccess = false;
+                _response.StatusCode= HttpStatusCode.BadRequest;
                 _response.ErrorsMessages = new List<string> { ex.Message };
+                return BadRequest(_response);
             }
             return _response;
         }
 
 
-        [HttpGet("{id:int}")]
+        [HttpGet("{id:int}", Name ="[controller]/GetDataById")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -94,7 +98,7 @@ namespace EasyGift_API.Controllers
             {
                 if (id == 0)
                 {
-                    return CustomMethods<TEntity>.ResponseBody(HttpStatusCode.BadRequest, false,ErrorMessages:new List<string> {"Id should not be 0"});
+                    return BadRequest(CustomMethods<TEntity>.ResponseBody(HttpStatusCode.BadRequest, false,ErrorMessages:new List<string> {"Id should not be 0"}));
                 }
                 TEntity entity = new TEntity();
                 Expression<Func<TEntity, bool>> Filter;
@@ -115,7 +119,7 @@ namespace EasyGift_API.Controllers
                 //}
                 if (entity == null)
                 {
-                    return CustomMethods<TEntity>.ResponseBody(HttpStatusCode.NotFound, false, ErrorMessages: new List<string> { "Record Not Found" });
+                    return NotFound(CustomMethods<TEntity>.ResponseBody(HttpStatusCode.NotFound, false, ErrorMessages: new List<string> { "Record Not Found" }));
                 }
                 TEntityDto model = _mapper.Map<TEntityDto>(entity);
 
@@ -124,7 +128,7 @@ namespace EasyGift_API.Controllers
                     var response = CustomMethods<TEntityDto>.fetchPerticularColumns(columns, model);
                     if (response.ContainsKey("Error"))
                     {
-                        return CustomMethods<TEntity>.ResponseBody(HttpStatusCode.BadRequest, false, Result: response["Error"]);
+                        return BadRequest(CustomMethods<TEntity>.ResponseBody(HttpStatusCode.BadRequest, false, Result: response["Error"]));
                     }
                     _response.Result = response;
                 }
@@ -138,9 +142,11 @@ namespace EasyGift_API.Controllers
             catch (Exception ex)
             {
                 _response.IsSuccess = false;
+                _response.StatusCode = HttpStatusCode.BadRequest;
                 _response.ErrorsMessages = new List<string> { ex.Message };
+                return BadRequest(_response);
             }
-            return _response;
+            return Ok(_response);
         }
 
 
@@ -153,24 +159,27 @@ namespace EasyGift_API.Controllers
             try
             {
                 if (createDTO == null)
-                    return CustomMethods<TEntity>.ResponseBody(HttpStatusCode.BadRequest, false, Result: createDTO);
+                    return BadRequest(CustomMethods<TEntity>.ResponseBody(HttpStatusCode.BadRequest, false, Result: createDTO));
                 TEntity model = _mapper.Map<TEntity>(createDTO);
                 await _db.CreateAsync(model);
 
-                _response.Result = _mapper.Map<TEntity>(model); ;
+                dynamic result = _mapper.Map<TEntity>(model);
+                _response.Result = result;
                 _response.StatusCode = HttpStatusCode.Created;
                 _response.IsSuccess = true;
-                //return CreatedAtRoute("GetDataById", new { id = model.Id }, _response);
+                var Id = result.Id;
+                return CreatedAtAction("GetDataById", new { id = Id }, _response);
             }
             catch (Exception ex)
             {
                 _response.IsSuccess = false;
+                _response.StatusCode= HttpStatusCode.BadRequest;
                 _response.ErrorsMessages = new List<string> { ex.Message };
+                return BadRequest(_response);
             }
-            return _response;
         }
 
-        [HttpPatch("{id:int}")]
+        [HttpPatch("{id:int}", Name = "[controller]/UpdateData")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
 
@@ -180,13 +189,13 @@ namespace EasyGift_API.Controllers
             {
                 if (patchDTO == null || id == 0)
                 {
-                    return CustomMethods<TEntity>.ResponseBody(HttpStatusCode.BadRequest, false);
+                    return BadRequest(CustomMethods<TEntity>.ResponseBody(HttpStatusCode.BadRequest, false));
                 }
                 var Filter = CustomMethods<TEntity>.ConvertToExpression<TEntity>("u => u.Id ==" + id);
 
                 var entity = await _db.GetAsync(filter: Filter, tracked: false);
                 if (entity == null)
-                    return CustomMethods<TEntity>.ResponseBody(HttpStatusCode.NotFound, false, ErrorMessages: new List<string> { "Record Not Found" });
+                    return NotFound(CustomMethods<TEntity>.ResponseBody(HttpStatusCode.NotFound, false));
 
                 foreach (var update in patchDTO)
                 {
@@ -199,7 +208,7 @@ namespace EasyGift_API.Controllers
                     }
                     else
                     {
-                        return CustomMethods<TEntity>.ResponseBody(HttpStatusCode.BadRequest, false, ErrorMessages: new List<string> { $"Invalid property name: {update.Key}" });
+                        return BadRequest(CustomMethods<TEntity>.ResponseBody(HttpStatusCode.BadRequest, false, ErrorMessages: new List<string> { $"Invalid property name: {update.Key}" }));
                     }
                 }
 
@@ -209,7 +218,7 @@ namespace EasyGift_API.Controllers
                 await _db.UpdateAsync(model);
                 if (!ModelState.IsValid)
                 {
-                    return CustomMethods<Admin>.ResponseBody(HttpStatusCode.BadRequest, false, Result: ModelState);
+                    return BadRequest(CustomMethods<Admin>.ResponseBody(HttpStatusCode.BadRequest, false, Result: ModelState));
                 }
                 _response.StatusCode = HttpStatusCode.OK;
                 _response.Result = model;
@@ -220,12 +229,14 @@ namespace EasyGift_API.Controllers
             catch (Exception ex)
             {
                 _response.IsSuccess = false;
+                _response.StatusCode= HttpStatusCode.BadRequest;
                 _response.ErrorsMessages = new List<string> { ex.Message };
+                return BadRequest(_response);
             }
-            return _response;
+            return Ok(_response);
         }
 
-        [HttpDelete("{id:int}")]
+        [HttpDelete("{id:int}", Name = "[controller]/RemoveDataById")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -234,12 +245,11 @@ namespace EasyGift_API.Controllers
             try
             {
                 if (id == 0)
-                    return CustomMethods<TEntity>.ResponseBody(HttpStatusCode.BadRequest, false);
+                    return BadRequest(CustomMethods<TEntity>.ResponseBody(HttpStatusCode.BadRequest, false));
                 var Filter = CustomMethods<TEntity>.ConvertToExpression<TEntity>("u => u.Id ==" + id);
                 var entity = await _db.GetAsync(filter: Filter);
                 if (entity == null) { 
-                    var error = new List<string>() { "Record Not Found" };
-                return NotFound(CustomMethods<TEntity>.ResponseBody(HttpStatusCode.NotFound, false, ErrorMessages: error));
+                return NotFound(CustomMethods<TEntity>.ResponseBody(HttpStatusCode.NotFound, false));
 
                 }
                 await _db.RemoveAsync(entity);
@@ -251,9 +261,11 @@ namespace EasyGift_API.Controllers
             catch (Exception ex)
             {
                 _response.IsSuccess = false;
+                _response.StatusCode= HttpStatusCode.BadRequest;
                 _response.ErrorsMessages = new List<string> { ex.Message };
+                return BadRequest(_response);
             }
-            return _response;
+            return Ok(_response);
         }
     }
 }

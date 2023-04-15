@@ -16,8 +16,8 @@ using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace EasyGift_API.Controllers
 {
-    [Route("api/EasyGift/Product")]
-    [ApiController]
+    //[Route("api/EasyGift/Product")]
+    //[ApiController]
     public class ProductController : GenericController<Product,ProductDTO,CreateProductDTO,UpdateProductDTO>
     {
         private readonly IProductRepository _dbProduct;

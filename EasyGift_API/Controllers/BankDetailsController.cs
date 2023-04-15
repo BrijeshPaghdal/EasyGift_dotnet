@@ -15,8 +15,8 @@ using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace EasyGift_API.Controllers
 {
-    [Route("api/EasyGift/BankDetail")]
-    [ApiController]
+    //[Route("api/EasyGift/BankDetail")]
+    //[ApiController]
     public class BankDetailsController : GenericController<BankDetails, BankDetailsDTO, CreateBankDetailsDTO, UpdateBankDetailsDTO>
     {
         private readonly IBankDetailsRepository _dbBankDetail;
