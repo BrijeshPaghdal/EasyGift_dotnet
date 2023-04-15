@@ -5,7 +5,7 @@ namespace EasyGift_API.Models.Dto.Update
 {
     public class UpdateCategoryDTO
     {
-        public int CategoryId { get; set; }
+        public int Id { get; set; }
 
         [MaxLength(20)]
         public string CategoryName { get; set; }

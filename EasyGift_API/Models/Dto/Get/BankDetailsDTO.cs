@@ -5,7 +5,7 @@ namespace EasyGift_API.Models.Dto.Get
 {
     public class BankDetailsDTO
     {
-        public int BankId { get; set; }
+        public int Id { get; set; }
         public string? BankName { get; set; }
         public string? BankIFSC { get; set; }
         public string? BankBranch { get; set; }
