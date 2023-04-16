@@ -5,10 +5,10 @@ namespace EasyGift_API.Models.Dto.Update
 {
     public class UpdateUserOnlineDTO
     {
+        [Required]
         public int Id { get; set; }
-        [Required]
         public string Session { get; set; }
-        [Required]
+        
         public int Time { get; set; }
     }
 }

@@ -4,8 +4,8 @@ namespace EasyGift_API.Models.Dto.Update
 {
     public class UpdatePaymentTypeDTO
     {
-        public int Id { get; set; }
         [Required]
+        public int Id { get; set; }
         public string PaymentMethod { get; set; }
     }
 }
