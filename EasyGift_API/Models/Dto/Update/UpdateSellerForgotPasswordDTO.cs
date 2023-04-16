@@ -5,12 +5,10 @@ namespace EasyGift_API.Models.Dto.Update
 {
     public class UpdateSellerForgotPasswordDTO
     {
-        public int Id { get; set; }
         [Required]
+        public int Id { get; set; }
         [ForeignKey("SellerLogin")]
         public int SellerLoginId { get; set; }
-        
-        [Required]
         public DateTime Validtill { get; set; }
 
     }

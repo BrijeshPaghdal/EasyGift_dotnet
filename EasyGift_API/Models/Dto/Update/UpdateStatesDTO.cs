@@ -5,11 +5,10 @@ namespace EasyGift_API.Models.Dto.Update
 {
     public class UpdateStatesDTO
     {
-        public int Id { get; set; }
         [Required]
+        public int Id { get; set; }
         [MaxLength(50)]
         public string StateName { get; set; }
-        [Required]
         [ForeignKey("Countries")]
         public int CountryId { get; set; }
        

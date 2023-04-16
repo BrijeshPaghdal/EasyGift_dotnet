@@ -5,10 +5,10 @@ namespace EasyGift_API.Models.Dto.Update
 {
     public class UpdateSellerBankDetailsDTO
     {
+        [Required]
         public int Id { get; set; }
         public int SellerId { get; set; }
         [ForeignKey("BankDetails")]
-        [Required]
         public int BankId { get; set; }
         [MaxLength(50)]
         public string BankAccountNo { get; set; }

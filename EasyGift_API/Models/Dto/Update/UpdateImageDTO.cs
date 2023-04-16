@@ -5,11 +5,10 @@ namespace EasyGift_API.Models.Dto.Update
 {
     public class UpdateImageDTO
     {
-
+        [Required]
         public int Id { get; set; }
-        [Required]
+
         public int ProductId { get; set; }
-        [Required]
         [MaxLength(200)]
         public string ImageName { get; set; }
 

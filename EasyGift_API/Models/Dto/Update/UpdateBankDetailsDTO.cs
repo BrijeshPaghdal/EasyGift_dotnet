@@ -5,6 +5,7 @@ namespace EasyGift_API.Models.Dto.Update
 {
     public class UpdateBankDetailsDTO
     {
+        [Required]
         public int Id { get; set; }
         [MaxLength(49)]
         public string? BankName { get; set; }
