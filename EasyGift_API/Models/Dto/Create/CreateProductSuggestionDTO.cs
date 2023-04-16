@@ -1,18 +1,14 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace EasyGift_API.Models.Dto.Get
+namespace EasyGift_API.Models.Dto.Create
 {
-    public class ProductSuggestion
+    public class CreateProductSuggestionDTO
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
-
         [ForeignKey("Product")]
+        [Required]
         public int ProductId { get; set; }
-        
+        [Required]
         public int SuggestionId { get; set; }
-
     }
 }

@@ -3,11 +3,14 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EasyGift_API.Models.Dto.Get
 {
-    public class CategoryDTO
+    public class SellerLoginDTO
     {
         public int Id { get; set; }
-        public string CategoryName { get; set; }
-        public string CategoryImageName { get; set; }
+
+        public string EmailId { get; set; }
+        
+        public string Password { get; set; }
+
 
     }
 }

@@ -3,17 +3,14 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EasyGift_API.Models.Dto.Update
 {
-    public class UpdateCategoryDTO
+    public class UpdateSellerBankDetailsDTO
     {
         public int Id { get; set; }
-
+        public int SellerId { get; set; }
+        [ForeignKey("BankDetails")]
         [Required]
-        [MaxLength(20)]
-        public string CategoryName { get; set; }
-
-        [Required]
-        [MaxLength(100)]
-        public string CategoryImageName { get; set; }
+        public int BankId { get; set; }
+        public string BankAccountNo { get; set; }
 
     }
 }

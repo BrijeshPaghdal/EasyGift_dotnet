@@ -3,17 +3,12 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EasyGift_API.Models.Dto.Update
 {
-    public class UpdateCategoryDTO
+    public class UpdateUserOnlineDTO
     {
         public int Id { get; set; }
-
         [Required]
-        [MaxLength(20)]
-        public string CategoryName { get; set; }
-
+        public string Session { get; set; }
         [Required]
-        [MaxLength(100)]
-        public string CategoryImageName { get; set; }
-
+        public int Time { get; set; }
     }
 }

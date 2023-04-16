@@ -3,11 +3,11 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EasyGift_API.Models.Dto.Get
 {
-    public class CategoryDTO
+    public class StatesDTO
     {
         public int Id { get; set; }
-        public string CategoryName { get; set; }
-        public string CategoryImageName { get; set; }
-
+        public string StateName { get; set; }
+        public int CountryId { get; set; }
+       
     }
 }
