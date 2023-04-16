@@ -11,6 +11,7 @@ namespace EasyGift_API.Models.Dto.Create
 
         public int ProductId { get; set; }
         [Required]
+        [MaxLength(200)]
         public string ImageName { get; set; }
 
     }

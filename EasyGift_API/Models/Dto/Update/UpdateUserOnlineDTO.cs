@@ -7,6 +7,7 @@ namespace EasyGift_API.Models.Dto.Update
     {
         public int Id { get; set; }
         [Required]
+        [MaxLength(100)]
         public string Session { get; set; }
         [Required]
         public int Time { get; set; }

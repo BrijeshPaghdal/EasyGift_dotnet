@@ -6,6 +6,7 @@ namespace EasyGift_API.Models.Dto.Update
     {
         public int Id { get; set; }
         [Required]
+        [MaxLength(30)]
         public string PaymentMethod { get; set; }
     }
 }

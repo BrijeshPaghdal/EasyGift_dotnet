@@ -11,8 +11,6 @@ namespace EasyGift_API.Models.Dto.Create
 
         [MaxLength(200)]
         public string? ShopAddress { get; set; }
-
-        [Required]
         public int? PinCode { get; set; }
 
         [Required]

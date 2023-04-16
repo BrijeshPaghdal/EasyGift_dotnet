@@ -5,6 +5,7 @@ namespace EasyGift_API.Models.Dto.Update
     public class UpdateCustomerLoginDTO
     {
         public int Id { get; set; }
+        [MaxLength(200)]
         public string EmailId { get; set; }
 
         [MaxLength(100)]

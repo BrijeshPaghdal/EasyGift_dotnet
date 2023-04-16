@@ -13,6 +13,7 @@ namespace EasyGift_API.Models.Dto.Update
         public string CompanyName { get; set; }
         public int Price { get; set; }
         public int AvailableQuantity { get; set; }
+        [MaxLength()]
         public string ProductDiscription { get; set; }
         public int ProductStatus { get; set; }
         private DateTime UpdateDate { get; set; }

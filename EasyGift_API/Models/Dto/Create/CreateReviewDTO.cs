@@ -12,6 +12,7 @@ namespace EasyGift_API.Models.Dto.Create
         [Required]
         public int Rating { get; set; }
         [Required]
+        [MaxLength(1000)]
         public string ReviewDetail { get; set; }
         [Required]
         public DateTime ReviewDate { get; set; }

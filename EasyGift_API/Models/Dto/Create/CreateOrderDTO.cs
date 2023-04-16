@@ -14,10 +14,13 @@ namespace EasyGift_API.Models.Dto.Create
         [Required]
         public int ProductId { get; set; }
         [Required]
+        [MaxLength(30)]
         public string FirstName { get; set; }
         [Required]
+        [MaxLength(30)]
         public string LastName { get; set; }
         [Required]
+        [MaxLength(20)]
         public string PhoneNo { get; set; }
         [Required]
         public int Quantity { get; set; }

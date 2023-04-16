@@ -22,7 +22,12 @@ namespace EasyGift_API.Models.Dto.Create
         [Required]
         public int AvailableQuantity { get; set; }
         [Required]
+        [MaxLength()]
         public string ProductDiscription { get; set; }
+        [Required]
+        public int ProductStatus { get; set; }
+        [Required]
+        private DateTime CreatedDate { get; set; }
 
     }
 }

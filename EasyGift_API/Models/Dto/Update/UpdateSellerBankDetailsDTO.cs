@@ -10,6 +10,7 @@ namespace EasyGift_API.Models.Dto.Update
         [ForeignKey("BankDetails")]
         [Required]
         public int BankId { get; set; }
+        [MaxLength(50)]
         public string BankAccountNo { get; set; }
 
     }

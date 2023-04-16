@@ -16,6 +16,7 @@ namespace EasyGift_API.Models.Dto.Create
         public int CustomerLoginId { get; set; }
         [Required]
         public int CustomerStatus { get; set; }
+        [Required]
         public DateTime CreatedDate { get; set; }
     }
 }
