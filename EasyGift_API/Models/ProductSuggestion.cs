@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace EasyGift_API.Models.Dto.Get
+namespace EasyGift_API.Models
 {
     public class ProductSuggestion
     {
