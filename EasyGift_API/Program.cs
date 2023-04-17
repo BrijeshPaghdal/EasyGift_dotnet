@@ -21,6 +21,8 @@ builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IAddressRepository, AddressRepository>();
 builder.Services.AddScoped<IAdminRepository, AdminRepository>();
 builder.Services.AddScoped<IBankDetailsRepository, BankDetailsRepository>();
+builder.Services.AddScoped<ISellerRepository, SellerRepository>();
+builder.Services.AddScoped<ISellerLoginRepository, SellerLoginRepository>();
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 
 //Add NewtwonsoftJson

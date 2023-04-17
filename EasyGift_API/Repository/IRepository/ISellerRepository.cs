@@ -1,0 +1,12 @@
+﻿using EasyGift_API.Models;
+using EasyGift_API.Models.Dto.Create;
+using Microsoft.AspNetCore.Mvc;
+using System.Linq.Expressions;
+
+namespace EasyGift_API.Repository.IRepository
+{
+    public interface ISellerRepository : IRepository<Seller>
+    {
+        Task<Dictionary<string, object>> CreateSellerAsync(CreateNewSellerDTO entity);
+    }
+}

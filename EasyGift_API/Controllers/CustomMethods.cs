@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using System.Linq.Dynamic.Core;
 using System.Linq.Expressions;
 using System.Net;
+using System.Reflection;
 
 namespace EasyGift_API.Controllers
 {
@@ -80,5 +81,19 @@ namespace EasyGift_API.Controllers
             return response;
         }
 
+        internal static T ConvertDictionaryToObject<T>(Dictionary<string, object> dictionary) where T : class, new()
+        {
+            T obj = new T();
+            Type objType = obj.GetType();
+            foreach (var kvp in dictionary)
+            {
+                PropertyInfo prop = objType.GetProperty(kvp.Key, BindingFlags.Public | BindingFlags.Instance | BindingFlags.IgnoreCase);
+                if (prop != null && prop.CanWrite)
+                {
+                    prop.SetValue(obj, kvp.Value);
+                }
+            }
+            return obj;
+        }
     }
 }
