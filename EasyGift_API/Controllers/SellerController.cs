@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Azure;
+using EasyGift_API.Controllers.CustomMethod;
 using EasyGift_API.Data;
 using EasyGift_API.Models;
 using EasyGift_API.Models.Dto.Create;
@@ -41,7 +42,13 @@ namespace EasyGift_API.Controllers
                     return BadRequest(CustomMethods<Seller>.ResponseBody(HttpStatusCode.BadRequest, false, Result: createDTO));
 
                 var model = await _dbSeller.CreateSellerAsync(createDTO);
-
+                if(model.ContainsKey("StatusCode") && (int)model["StatusCode"] == 500)
+                {
+                    _response.IsSuccess = false;
+                    _response.StatusCode = HttpStatusCode.InternalServerError;
+                    _response.ErrorsMessages =new List<string>() { (string)model["error"] } ;
+                    return BadRequest(_response);
+                }
                 dynamic result = CustomMethods<Seller>.ConvertDictionaryToObject<Seller>(model);
                 _response.Result = result;
                 _response.StatusCode = HttpStatusCode.Created;

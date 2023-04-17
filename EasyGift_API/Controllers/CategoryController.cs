@@ -11,22 +11,22 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System.Net;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
-
 namespace EasyGift_API.Controllers
 {
-    //[Route("api/EasyGift/BankDetail")]
-    //[ApiController]
-    public class BankDetailsController : GenericController<BankDetails, BankDetailsDTO, CreateBankDetailsDTO, UpdateBankDetailsDTO>
+    public class CategoryController : GenericController<Category, CategoryDTO, CreateCategoryDTO, UpdateCategoryDTO>
     {
-        private readonly IBankDetailsRepository _dbBankDetail;
+        private readonly ICategoryRepository _dbCategory;
         private readonly IMapper _mapper;
-
-        public BankDetailsController(IBankDetailsRepository dbBankDetail, IMapper mapper) : base(dbBankDetail, mapper)
+        protected APIResponse _response;
+        public CategoryController(ICategoryRepository dbCategory, IMapper mapper) : base(dbCategory, mapper)
         {
-            _dbBankDetail = dbBankDetail;
+            _dbCategory = dbCategory;
             _mapper = mapper;
+            _response = new APIResponse();
         }
 
+      
     }
 }

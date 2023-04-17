@@ -34,6 +34,24 @@ namespace EasyGift_API
             CreateMap<SellerLogin, SellerLoginDTO>().ReverseMap();
             CreateMap<SellerLogin, CreateSellerLoginDTO>().ReverseMap();
             CreateMap<SellerLogin, UpdateSellerLoginDTO>().ReverseMap();
+            
+            CreateMap<Category, CategoryDTO>().ReverseMap();
+            CreateMap<Category, CreateCategoryDTO>().ReverseMap();
+            CreateMap<Category, UpdateCategoryDTO>().ReverseMap();
+            
+            CreateMap<Cities, CitiesDTO>().ReverseMap();
+            CreateMap<Cities, CreateCitiesDTO>().ReverseMap();
+            CreateMap<Cities, UpdateCitiesDTO>().ReverseMap();
+             
+            CreateMap<Countries, CountriesDTO>().ReverseMap();
+            CreateMap<Countries, CreateCountriesDTO>().ReverseMap();
+            CreateMap<Countries, UpdateCountriesDTO>().ReverseMap();
+              
+            CreateMap<Customer, CustomerDTO>().ReverseMap();
+            CreateMap<Customer, CreateCustomerDTO>().ReverseMap();
+            CreateMap<Customer, UpdateCustomerDTO>().ReverseMap();
+
+
         }
     }
 }

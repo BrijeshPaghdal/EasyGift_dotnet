@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Azure;
+using EasyGift_API.Controllers.CustomMethod;
 using EasyGift_API.Data;
 using EasyGift_API.Models;
 using EasyGift_API.Models.Dto.Create;
@@ -39,7 +40,7 @@ namespace EasyGift_API.Controllers
         //Http Requests
 
         [HttpGet(Name = "[controller]/GetDatas")]
-        public async Task<ActionResult<APIResponse>> GetDatas([FromQuery] string[] columns, [FromQuery] string? filter = null)
+        public async Task<ActionResult<APIResponse>> GetDatas([FromQuery] string[] columns, [FromQuery] string? filter = null, [FromQuery] int limit=0)
         {
             try
             {
@@ -47,11 +48,18 @@ namespace EasyGift_API.Controllers
                 if (filter != null)
                 {
                     var Filter = CustomMethods<TEntity>.ConvertToExpression<TEntity>(filter);
-                    datas = await _db.GetAllAsync(filter: Filter);
+                    if(limit>0)
+                        datas = await _db.GetAllAsync(filter: Filter,limit:limit);
+                    else
+                        datas = await _db.GetAllAsync(filter: Filter);
+
                 }
                 else
                 {
-                    datas = await _db.GetAllAsync();
+                    if (limit > 0)
+                        datas = await _db.GetAllAsync(limit: limit);
+                    else
+                        datas = await _db.GetAllAsync();
                 }
                 if (datas.Count() == 0)
                 {

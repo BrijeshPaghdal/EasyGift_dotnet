@@ -1,12 +1,11 @@
-﻿
-using EasyGift_API.Models;
+﻿using EasyGift_API.Models;
 using Microsoft.AspNetCore.Http;
 using System.Linq.Dynamic.Core;
 using System.Linq.Expressions;
 using System.Net;
 using System.Reflection;
 
-namespace EasyGift_API.Controllers
+namespace EasyGift_API.Controllers.CustomMethod
 {
     public class CustomMethods<T> where T : class
     {
@@ -42,7 +41,7 @@ namespace EasyGift_API.Controllers
                 var lambdaExpression = DynamicExpressionParser.ParseLambda(new[] { parameter }, typeof(bool), expression);
 
                 // Convert the parsed expression to a strongly-typed Expression<Func<Product, bool>> using Expression<Func<,>> constructor
-                Expression<Func<T, bool>> typedExpression = (Expression<Func<T, bool>>)(lambdaExpression);
+                Expression<Func<T, bool>> typedExpression = (Expression<Func<T, bool>>)lambdaExpression;
                 //var typedLambdaExpression = Expression.Lambda<Func<T, bool>>(typedExpression, parameter);
 
                 return typedExpression;
