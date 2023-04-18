@@ -27,6 +27,8 @@ builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<ICitiesRepository, CitiesRepository>();
 builder.Services.AddScoped<ICountriesRepository, CountriesRepository>();
 builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
+builder.Services.AddScoped<ICustomerLoginRepository, CustomerLoginRepository>();
+builder.Services.AddScoped<IForgotPasswordRepository, ForgotPasswordRepository>();
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 
 //Add NewtwonsoftJson

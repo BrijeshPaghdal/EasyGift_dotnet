@@ -15,7 +15,7 @@ namespace EasyGift_API.Data
         public DbSet<Countries> Countries { get; set; }
         public DbSet<Customer> Customer { get; set; }
         public DbSet<CustomerLogin> CustomerLogin { get; set; }
-        public DbSet<ForgotPassword> ForgortPassword { get; set; }
+        public DbSet<ForgotPassword> ForgotPassword { get; set; }
         public DbSet<Image> Image { get; set; }
         public DbSet<Order> Order { get; set; }
         public DbSet<OrderComplete> OrderComplete { get; set; }
