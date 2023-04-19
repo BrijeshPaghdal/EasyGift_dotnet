@@ -38,6 +38,12 @@ builder.Services.AddScoped<IProductSuggestionRepository, ProductSuggestionReposi
 builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
 builder.Services.AddScoped<ISellerBankDetailsRepository, SellerBankDetailsRepository>();
 builder.Services.AddScoped<ISellerForgotPasswordRepository, SellerForgotPasswordRepository>();
+builder.Services.AddScoped<ISellerOnlineRepository, SellerOnlineRepository>();
+builder.Services.AddScoped<IShopRepository, ShopRepository>();
+builder.Services.AddScoped<IStatesRepository, StatesRepository>();
+builder.Services.AddScoped<ISubCategoryRepository, SubCategoryRepository>();
+builder.Services.AddScoped<ISuggestionRepository, SuggestionRepository>();
+builder.Services.AddScoped<IUserOnlineRepository, UserOnlineRepository>();
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 
 //Add NewtwonsoftJson
