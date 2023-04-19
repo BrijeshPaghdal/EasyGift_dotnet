@@ -13,7 +13,7 @@ namespace EasyGift_API.Models
         public int SellerId { get; set; }
         [ForeignKey("BankDetails")]
         public int BankId { get; set; }
-        public string BankAccountNo { get; set; }
+        public string? BankAccountNo { get; set; }
 
     }
 }

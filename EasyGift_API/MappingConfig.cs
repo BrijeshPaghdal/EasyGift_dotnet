@@ -59,6 +59,38 @@ namespace EasyGift_API
             CreateMap<ForgotPassword, CreateForgotPasswordDTO>().ReverseMap();
             CreateMap<ForgotPassword, UpdateForgotPasswordDTO>().ReverseMap();
 
+            CreateMap<Image, ImageDTO>().ReverseMap();
+            CreateMap<Image, CreateImageDTO>().ReverseMap();
+            CreateMap<Image, UpdateImageDTO>().ReverseMap();
+
+            CreateMap<Order, OrderDTO>().ReverseMap();
+            CreateMap<Order, CreateOrderDTO>().ReverseMap();
+            CreateMap<Order, UpdateOrderDTO>().ReverseMap();
+
+            CreateMap<OrderComplete, OrderCompleteDTO>().ReverseMap();
+            CreateMap<OrderComplete, CreateOrderCompleteDTO>().ReverseMap();
+            CreateMap<OrderComplete, UpdateOrderCompleteDTO>().ReverseMap();
+
+            CreateMap<PaymentType, PaymentTypeDTO>().ReverseMap();
+            CreateMap<PaymentType, CreatePaymentTypeDTO>().ReverseMap();
+            CreateMap<PaymentType, UpdatePaymentTypeDTO>().ReverseMap();
+
+            CreateMap<ProductSuggestion, ProductSuggestionDTO>().ReverseMap();
+            CreateMap<ProductSuggestion, CreateProductSuggestionDTO>().ReverseMap();
+            CreateMap<ProductSuggestion, UpdateProductSuggestionDTO>().ReverseMap();
+
+            CreateMap<Review, ReviewDTO>().ReverseMap();
+            CreateMap<Review, CreateReviewDTO>().ReverseMap();
+            CreateMap<Review, UpdateReviewDTO>().ReverseMap();
+
+            CreateMap<SellerBankDetails, SellerBankDetailsDTO>().ReverseMap();
+            CreateMap<SellerBankDetails, CreateSellerBankDetailsDTO>().ReverseMap();
+            CreateMap<SellerBankDetails, UpdateSellerBankDetailsDTO>().ReverseMap();
+
+            CreateMap<SellerForgotPassword, SellerForgotPasswordDTO>().ReverseMap();
+            CreateMap<SellerForgotPassword, CreateSellerForgotPasswordDTO>().ReverseMap();
+            CreateMap<SellerForgotPassword, UpdateSellerForgotPasswordDTO>().ReverseMap();
+
 
         }
     }

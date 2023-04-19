@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Configuration.Json;
 
-namespace EasyGift_API.Repository
+namespace EasyGift_API
 {
     public class StoredConnection
     {

@@ -1,5 +1,6 @@
 using EasyGift_API;
 using EasyGift_API.Data;
+using EasyGift_API.Models;
 using EasyGift_API.Repository;
 using EasyGift_API.Repository.IRepository;
 using Microsoft.AspNetCore.Mvc;
@@ -29,6 +30,14 @@ builder.Services.AddScoped<ICountriesRepository, CountriesRepository>();
 builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
 builder.Services.AddScoped<ICustomerLoginRepository, CustomerLoginRepository>();
 builder.Services.AddScoped<IForgotPasswordRepository, ForgotPasswordRepository>();
+builder.Services.AddScoped<IImageRepository, ImageRepository>();
+builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+builder.Services.AddScoped<IOrderCompleteRepository, OrderCompleteRepository>();
+builder.Services.AddScoped<IPaymentTypeRepository, PaymentTypeRepository>();
+builder.Services.AddScoped<IProductSuggestionRepository, ProductSuggestionRepository>();
+builder.Services.AddScoped<IReviewRepository, ReviewRepository>();
+builder.Services.AddScoped<ISellerBankDetailsRepository, SellerBankDetailsRepository>();
+builder.Services.AddScoped<ISellerForgotPasswordRepository, SellerForgotPasswordRepository>();
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 
 //Add NewtwonsoftJson
