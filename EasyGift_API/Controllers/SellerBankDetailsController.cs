@@ -25,7 +25,5 @@ namespace EasyGift_API.Controllers
             _mapper = mapper;
             _response = new APIResponse();
         }
-
-      
     }
 }

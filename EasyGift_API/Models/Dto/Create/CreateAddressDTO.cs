@@ -11,7 +11,7 @@ namespace EasyGift_API.Models.Dto.Create
 
         [MaxLength(200)]
         public string? ShopAddress { get; set; }
-        public int? PinCode { get; set; }
+        public string? PinCode { get; set; }
 
         [Required]
         [ForeignKey("Cities")]

@@ -14,6 +14,5 @@ namespace EasyGift_API.Models
         [Required]
         [MaxLength(100)]
         public string CategoryImageName { get; set; }
-       
     }
 }

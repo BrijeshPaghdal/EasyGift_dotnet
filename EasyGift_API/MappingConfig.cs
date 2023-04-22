@@ -22,13 +22,15 @@ namespace EasyGift_API
             CreateMap<Admin, CreateAdminDTO>().ReverseMap();
             CreateMap<Admin, UpdateAdminDTO>().ReverseMap();
             
+            CreateMap<Admin, LoginResponseDTO<Admin>>().ReverseMap();
+            
             CreateMap<BankDetails, BankDetailsDTO>().ReverseMap();
             CreateMap<BankDetails, CreateBankDetailsDTO>().ReverseMap();
             CreateMap<BankDetails, UpdateBankDetailsDTO>().ReverseMap();
 
             CreateMap<Seller, SellerDTO>().ReverseMap();
             CreateMap<Seller, CreateSellerDTO>().ReverseMap();
-            CreateMap<Seller, SellerDTO>().ReverseMap();
+            CreateMap<Seller, UpdateSellerDTO>().ReverseMap();
             CreateMap<CreateNewSellerDTO, Seller>();
 
             CreateMap<SellerLogin, SellerLoginDTO>().ReverseMap();

@@ -7,5 +7,7 @@ namespace EasyGift_API.Repository.IRepository
 {
     public interface IOrderRepository : IRepository<Order>
     {
+        Task<dynamic> GetPastWeekOrder();
+
     }
 }

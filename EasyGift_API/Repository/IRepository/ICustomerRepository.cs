@@ -7,5 +7,6 @@ namespace EasyGift_API.Repository.IRepository
 {
     public interface ICustomerRepository : IRepository<Customer>
     {
+        public Task<dynamic> GetRecentNewCustomer();
     }
 }

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Azure;
+using EasyGift_API.Controllers.CustomMethod;
 using EasyGift_API.Data;
 using EasyGift_API.Models;
 using EasyGift_API.Models.Dto.Create;
@@ -26,6 +27,34 @@ namespace EasyGift_API.Controllers
             _response = new APIResponse();
         }
 
-      
+        [HttpGet("GetPastWeekOrder")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<APIResponse>> GetPastWeekOrder()
+        {
+            try
+            {
+                
+                dynamic lastWeekOrder = await _db.GetPastWeekOrder();
+
+                if (lastWeekOrder == null)
+                {
+                    _response.StatusCode = HttpStatusCode.BadRequest;
+                    _response.IsSuccess = false;
+                    _response.ErrorsMessages = new List<string>() { "Error Occured" };
+                    return BadRequest(_response);
+                }
+
+                return Ok(CustomMethods<Order>.ResponseBody(HttpStatusCode.OK, false, Result: lastWeekOrder));
+            }
+            catch (Exception ex)
+            {
+                _response.IsSuccess = false;
+                _response.ErrorsMessages = new List<string> { ex.Message };
+            }
+            return _response;
+        }
+
     }
 }

@@ -33,5 +33,6 @@ namespace EasyGift_API.Data
         public DbSet<SubCategory> SubCategory { get; set; }
         public DbSet<Suggestion> Suggestion { get; set; }
         public DbSet<UserOnline> UserOnline { get; set; }
+
     }
 }

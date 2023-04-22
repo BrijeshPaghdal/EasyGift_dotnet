@@ -5,7 +5,6 @@ using EasyGift_API.Repository;
 using EasyGift_API.Repository.IRepository;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-
 var builder = WebApplication.CreateBuilder(args);
 
 //Add database connection
@@ -52,6 +51,19 @@ builder.Services.AddControllers(option =>
     //option.ReturnHttpNotAcceptable=true;
 }).AddNewtonsoftJson().AddXmlDataContractSerializerFormatters();
 
+//Add cors
+var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: MyAllowSpecificOrigins,
+                      policy =>
+                      {
+                          policy.WithOrigins("http://localhost/EasyGift");
+                      });
+});
+
+
+
 // Add services to the container.
 
 builder.Services.AddControllers();
@@ -71,6 +83,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseCors(MyAllowSpecificOrigins);
 
 app.UseHttpsRedirection();
 

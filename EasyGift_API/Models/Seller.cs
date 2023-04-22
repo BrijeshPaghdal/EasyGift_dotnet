@@ -18,7 +18,7 @@ namespace EasyGift_API.Models
         public string SellerPancardNo { get; set; }
         public string SellerImage { get; set; }
         public int SellerStatus { get; set; }
-        public DateTime CreatedDate { get; set; }
+        public DateTime? CreatedDate { get; set; }
         public DateTime? UpdateDate { get; set; }
         [ForeignKey("SellerLogin")]
         public int SellerLoginId { get; set; }

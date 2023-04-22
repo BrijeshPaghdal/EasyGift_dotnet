@@ -7,5 +7,7 @@ namespace EasyGift_API.Repository.IRepository
 {
     public interface IShopRepository : IRepository<Shop>
     {
+        public Task<dynamic> GetTotalOrder(int id);
+
     }
 }

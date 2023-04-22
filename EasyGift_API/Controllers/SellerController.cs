@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System.Collections.Generic;
 using System.Net;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 namespace EasyGift_API.Controllers
@@ -62,6 +63,117 @@ namespace EasyGift_API.Controllers
                 _response.ErrorsMessages = new List<string> { ex.Message };
                 return BadRequest(_response);
             }
+        }
+
+        [HttpGet("GetNewSellers")]
+        public async Task<ActionResult<APIResponse>> GetNewSellers()
+        {
+            try
+            {
+                IEnumerable<NewSellerDTO> datas;
+                datas = await _dbSeller.GetNewSellers();
+                if (datas.Count() == 0)
+                {
+                    return NotFound(CustomMethods<NewSellerDTO>.ResponseBody(HttpStatusCode.NotFound, false));
+                }
+                _response.Result = _mapper.Map<List<NewSellerDTO>>(datas);
+                _response.StatusCode = HttpStatusCode.OK;
+            }
+            catch (Exception ex)
+            {
+                _response.IsSuccess = false;
+                _response.StatusCode = HttpStatusCode.BadRequest;
+                _response.ErrorsMessages = new List<string> { ex.Message };
+                return BadRequest(_response);
+            }
+            return _response;
+        }
+
+        [HttpGet("GetRecentNewSeller")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<APIResponse>> GetRecentNewSeller()
+        {
+            try
+            {
+
+                dynamic datas = await _dbSeller.GetRecentNewSeller();
+
+                if (datas == null)
+                {
+                    _response.StatusCode = HttpStatusCode.BadRequest;
+                    _response.IsSuccess = false;
+                    _response.ErrorsMessages = new List<string>() { "Error Occured" };
+                    return BadRequest(_response);
+                }
+
+                return Ok(CustomMethods<Seller>.ResponseBody(HttpStatusCode.OK, false, Result: datas));
+            }
+            catch (Exception ex)
+            {
+                _response.IsSuccess = false;
+                _response.ErrorsMessages = new List<string> { ex.Message };
+            }
+            return _response;
+        }
+
+        [HttpGet("GetAllSeller")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<APIResponse>> GetAllSeller()
+        {
+            try
+            {
+
+                dynamic datas = await _dbSeller.GetAllSeller();
+
+                if (datas == null)
+                {
+                    _response.StatusCode = HttpStatusCode.BadRequest;
+                    _response.IsSuccess = false;
+                    _response.ErrorsMessages = new List<string>() { "Error Occured" };
+                    return BadRequest(_response);
+                }
+
+                return Ok(CustomMethods<Seller>.ResponseBody(HttpStatusCode.OK, false, Result: datas));
+            }
+            catch (Exception ex)
+            {
+                _response.IsSuccess = false;
+                _response.ErrorsMessages = new List<string> { ex.Message };
+            }
+            return _response;
+        }
+
+        [HttpGet("GetSellerDetails/{id:int}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<APIResponse>> GetSellerDetails(int id)
+        {
+            try
+            {
+
+                dynamic datas = await _dbSeller.GetSellerDetails(id);
+
+                if (datas == null)
+                {
+                    _response.StatusCode = HttpStatusCode.BadRequest;
+                    _response.IsSuccess = false;
+                    _response.ErrorsMessages = new List<string>() { "Error Occured" };
+                    return BadRequest(_response);
+                }
+
+                return Ok(CustomMethods<Seller>.ResponseBody(HttpStatusCode.OK, false, Result: datas));
+            }
+            catch (Exception ex)
+            {
+                _response.IsSuccess = false;
+                _response.ErrorsMessages = new List<string> { ex.Message };
+            }
+            return _response;
         }
     }
 }

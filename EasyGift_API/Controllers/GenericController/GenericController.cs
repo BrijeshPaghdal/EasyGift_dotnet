@@ -52,7 +52,6 @@ namespace EasyGift_API.Controllers
                         datas = await _db.GetAllAsync(filter: Filter,limit:limit);
                     else
                         datas = await _db.GetAllAsync(filter: Filter);
-
                 }
                 else
                 {
@@ -222,11 +221,10 @@ namespace EasyGift_API.Controllers
 
                 TUpdateDto updatedEntity = _mapper.Map<TUpdateDto>(entity);
                 TEntity model = _mapper.Map<TEntity>(updatedEntity);
-
                 await _db.UpdateAsync(model);
                 if (!ModelState.IsValid)
                 {
-                    return BadRequest(CustomMethods<Admin>.ResponseBody(HttpStatusCode.BadRequest, false, Result: ModelState));
+                    return BadRequest(CustomMethods<TEntity>.ResponseBody(HttpStatusCode.BadRequest, false, Result: ModelState));
                 }
                 _response.StatusCode = HttpStatusCode.OK;
                 _response.Result = model;

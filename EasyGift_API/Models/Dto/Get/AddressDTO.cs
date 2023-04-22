@@ -8,7 +8,7 @@ namespace EasyGift_API.Models.Dto.Get
         public int Id { get; set; }
         public int ShopId { get; set; }
         public string? ShopAddress { get; set; }
-        public int? PinCode { get; set; }
+        public string? PinCode { get; set; }
         public int CityId { get; set; }
 
     }
