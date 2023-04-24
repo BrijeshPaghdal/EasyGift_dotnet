@@ -7,5 +7,6 @@ namespace EasyGift_API.Repository.IRepository
 {
     public interface IReviewRepository : IRepository<Review>
     {
+        Task<dynamic> GetProductReviews(int id, int limit = 5);
     }
 }

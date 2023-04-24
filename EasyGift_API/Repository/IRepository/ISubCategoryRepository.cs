@@ -7,5 +7,6 @@ namespace EasyGift_API.Repository.IRepository
 {
     public interface ISubCategoryRepository : IRepository<SubCategory>
     {
+        public Task<List<dynamic>> GetAllSubCategory();
     }
 }

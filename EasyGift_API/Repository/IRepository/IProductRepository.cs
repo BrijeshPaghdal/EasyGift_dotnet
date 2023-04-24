@@ -7,6 +7,7 @@ namespace EasyGift_API.Repository.IRepository
     {
         Task<Product> UpdateAsync(Product entity);
         Task<dynamic> GetPastWeekAddedProduct();
-
+        Task<List<dynamic>> GetProducts(int id = 0);
+        Task<dynamic> GetProductDetail(int id);
     }
 }

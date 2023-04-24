@@ -8,6 +8,7 @@ using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using System.Data;
+using System.Dynamic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
@@ -23,5 +24,36 @@ namespace EasyGift_API.Repository
             _db = db;
         }
 
+
+        public async Task<dynamic> GetProductSuggestions(int id)
+        {
+            List<Dictionary<string, object>> datas = new List<Dictionary<string, object>>();
+            using (SqlConnection connection = new SqlConnection(StoredConnection.GetConnection()))
+            {
+                using (SqlCommand cmd = new SqlCommand("GetProductSuggestions", connection))
+                {
+                    cmd.Parameters.AddWithValue("@prod_id", id);
+
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    if (connection.State != ConnectionState.Open)
+                    {
+                        connection.Open();
+                    }
+                    //cmd.ExecuteNonQuery();
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+
+                        while (await reader.ReadAsync())
+                        {
+                            Dictionary<string, object> data = new Dictionary<string, object>();
+                            data["SuggestedFor"] = (string)reader["SuggestedFor"];
+                            datas.Add(data);
+                        }
+                    }
+                }
+                connection.Close();
+            }
+            return datas;
+        }
     }
 }

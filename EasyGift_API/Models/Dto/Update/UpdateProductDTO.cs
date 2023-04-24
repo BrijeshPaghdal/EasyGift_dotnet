@@ -17,7 +17,9 @@ namespace EasyGift_API.Models.Dto.Update
         [MaxLength()]
         public string ProductDiscription { get; set; }
         public int ProductStatus { get; set; }
-        private DateTime UpdateDate { get; set; }
+
+        public DateTime CreatedDate { get; set; }
+        //private DateTime UpdateDate { get; set; }
 
     }
 }

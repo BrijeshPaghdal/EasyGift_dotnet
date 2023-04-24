@@ -18,6 +18,7 @@ namespace EasyGift_API.Models.Dto.Update
         public int CustomerLoginId { get; set; }
         
         public int CustomerStatus { get; set; }
-        public DateTime UpdatedDate { get; set; }
+        public DateTime CreatedDate { get; set; }
+        //public DateTime UpdatedDate { get; set; }
     }
 }

@@ -12,6 +12,7 @@ namespace EasyGift_API.Repository.IRepository
         Task<List<NewSellerDTO>> GetNewSellers();
         public Task<dynamic> GetRecentNewSeller();
         public Task<List<dynamic>> GetAllSeller();
+        public Task<List<dynamic>> GetSellerReport(int status);
         public Task<dynamic> GetSellerDetails(int id);
 
 

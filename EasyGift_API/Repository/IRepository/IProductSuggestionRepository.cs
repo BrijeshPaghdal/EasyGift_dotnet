@@ -7,5 +7,7 @@ namespace EasyGift_API.Repository.IRepository
 {
     public interface IProductSuggestionRepository : IRepository<ProductSuggestion>
     {
+        Task<dynamic> GetProductSuggestions(int id);
+
     }
 }

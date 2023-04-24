@@ -56,5 +56,62 @@ namespace EasyGift_API.Controllers
             return _response;
         }
 
+        [HttpGet("GetAllCustomers")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<APIResponse>> GetAllCustomers()
+        {
+            try
+            {
+
+                dynamic datas = await _db.GetAllCustomers();
+
+                if (datas == null)
+                {
+                    _response.StatusCode = HttpStatusCode.BadRequest;
+                    _response.IsSuccess = false;
+                    _response.ErrorsMessages = new List<string>() { "Error Occured" };
+                    return BadRequest(_response);
+                }
+
+                return Ok(CustomMethods<Customer>.ResponseBody(HttpStatusCode.OK, false, Result: datas));
+            }
+            catch (Exception ex)
+            {
+                _response.IsSuccess = false;
+                _response.ErrorsMessages = new List<string> { ex.Message };
+            }
+            return _response;
+        }
+
+        [HttpGet("GetUserReport/{status:int}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<APIResponse>> GetUserReport(int status)
+        {
+            try
+            {
+
+                dynamic datas = await _db.GetUserReport(status);
+
+                if (datas == null)
+                {
+                    _response.StatusCode = HttpStatusCode.BadRequest;
+                    _response.IsSuccess = false;
+                    _response.ErrorsMessages = new List<string>() { "Error Occured" };
+                    return BadRequest(_response);
+                }
+
+                return Ok(CustomMethods<Customer>.ResponseBody(HttpStatusCode.OK, false, Result: datas));
+            }
+            catch (Exception ex)
+            {
+                _response.IsSuccess = false;
+                _response.ErrorsMessages = new List<string> { ex.Message };
+            }
+            return _response;
+        }
     }
 }

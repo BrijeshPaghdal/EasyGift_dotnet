@@ -228,5 +228,45 @@ namespace EasyGift_API.Repository
             }
             return data;
         }
+
+        public async Task<List<dynamic>> GetSellerReport(int status)
+        {
+            List<dynamic> datas = new List<dynamic>();
+            using (SqlConnection connection = new SqlConnection(StoredConnection.GetConnection()))
+            {
+                using (SqlCommand cmd = new SqlCommand("GetSellerReport", connection))
+                {
+
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@status", status);
+
+                    if (connection.State != ConnectionState.Open)
+                    {
+                        connection.Open();
+                    }
+                    //cmd.ExecuteNonQuery();
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            dynamic data = new ExpandoObject();
+                            var dict = data as IDictionary<string, object>;
+
+                            for (int i = 0; i < reader.FieldCount; i++)
+                            {
+                                string name = reader.GetName(i);
+                                object value = reader.GetValue(i);
+
+                                dict.Add(name, value);
+                            }
+
+                            datas.Add(data);
+                        }
+                    }
+                }
+                connection.Close();
+            }
+            return datas;
+        }
     }
 }

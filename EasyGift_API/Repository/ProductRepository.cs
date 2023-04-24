@@ -6,6 +6,7 @@ using EasyGift_API.Repository.IRepository;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
+using System.Dynamic;
 using System.Linq;
 using System.Linq.Expressions;
 
@@ -55,6 +56,84 @@ namespace EasyGift_API.Repository
                 connection.Close();
             }
             return datas;
+        }
+
+
+        public async Task<List<dynamic>> GetProducts(int id=0)
+        {
+            List<dynamic> datas = new List<dynamic>();
+            using (SqlConnection connection = new SqlConnection(StoredConnection.GetConnection()))
+            {
+                using (SqlCommand cmd = new SqlCommand("GetProducts", connection))
+                {
+                    cmd.Parameters.AddWithValue("@shop_id", id);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    if (connection.State != ConnectionState.Open)
+                    {
+                        connection.Open();
+                    }
+                    //cmd.ExecuteNonQuery();
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            dynamic data = new ExpandoObject();
+                            var dict = data as IDictionary<string, object>;
+
+                            for (int i = 0; i < reader.FieldCount; i++)
+                            {
+                                string name = reader.GetName(i);
+                                object value = reader.GetValue(i);
+
+                                dict.Add(name, value);
+                            }
+
+                            datas.Add(data);
+                        }
+                    }
+                }
+                connection.Close();
+            }
+            return datas;
+        }
+
+
+        public async Task<dynamic> GetProductDetail(int id)
+        {
+            dynamic data = new ExpandoObject();
+            using (SqlConnection connection = new SqlConnection(StoredConnection.GetConnection()))
+            {
+                using (SqlCommand cmd = new SqlCommand("GetCompleteProductDetail", connection))
+                {
+                    cmd.Parameters.AddWithValue("@prod_id", id);
+
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    if (connection.State != ConnectionState.Open)
+                    {
+                        connection.Open();
+                    }
+                    //cmd.ExecuteNonQuery();
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+
+                        var dict = data as IDictionary<string, object>;
+                        while (await reader.ReadAsync())
+                        {
+
+                            for (int i = 0; i < reader.FieldCount; i++)
+                            {
+                                string name = reader.GetName(i);
+                                object value = reader.GetValue(i);
+
+                                dict.Add(name, value);
+                            }
+
+                        }
+                    }
+                }
+                connection.Close();
+            }
+            return data;
         }
     }
 }

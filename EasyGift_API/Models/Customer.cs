@@ -19,7 +19,7 @@ namespace EasyGift_API.Models
         public int CustomerLoginId { get; set; }
         [Required]
         public int CustomerStatus { get; set; }
-        public DateTime CreatedDate { get; set; }
+        public DateTime? CreatedDate { get; set; }
         public DateTime? UpdatedDate { get; set; }
 
     }
