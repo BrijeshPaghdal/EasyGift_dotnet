@@ -9,6 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 //Add database connection
 
+
 builder.Services.AddDbContext<ApplicationDbContext>(option =>
 {
     option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultSQLConnection"));
