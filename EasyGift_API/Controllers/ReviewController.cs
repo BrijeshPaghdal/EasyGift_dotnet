@@ -27,16 +27,16 @@ namespace EasyGift_API.Controllers
             _response = new APIResponse();
         }
 
-        [HttpGet("GetProductReviews/{id:int}")]
+        [HttpGet("GetProductReviews")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<APIResponse>> GetProductReviews(int id,int limit=5)
+        public async Task<ActionResult<APIResponse>> GetProductReviews([FromQuery]int ShopId=0, [FromQuery]int ProductId=0,int limit=0)
         {
             try
             {
 
-                dynamic datas = await _db.GetProductReviews(id,limit);
+                dynamic datas = await _db.GetProductReviews(ShopId,ProductId,limit);
 
                 if (datas == null)
                 {

@@ -17,9 +17,11 @@ namespace EasyGift_API.Models
         [Required]
         public string AdminEmail { get; set; }
 
-        [Required]
         [MaxLength(200)]
-        public string AdminPassword { get; set; }
+        [Required]
+        private string AdminPassword;
+
+        public string adminPassword { get { return null; } set { AdminPassword = value; } }
 
     }
 }

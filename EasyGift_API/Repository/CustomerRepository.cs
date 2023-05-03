@@ -52,8 +52,8 @@ namespace EasyGift_API.Repository
                         while (await reader.ReadAsync())
                         {
                             Dictionary<string, object> data = new Dictionary<string, object>();
-                            data["total"] = (int)reader["total"];
-                            data["add_date"] = (DateTime)reader["add_date"];
+                            data["Total"] = (int)reader["total"];
+                            data["Date"] = (DateTime)reader["add_date"];
                             datas.Add(data);
                         }
                     }

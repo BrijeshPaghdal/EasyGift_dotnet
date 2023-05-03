@@ -7,8 +7,8 @@ namespace EasyGift_API.Repository.IRepository
 {
     public interface IOrderRepository : IRepository<Order>
     {
-        Task<dynamic> GetPastWeekOrder();
-        Task<dynamic> GetOrders(int id);
+        Task<dynamic> GetPastOrder(int shopId=0,int limit=7);
+        
 
     }
 }

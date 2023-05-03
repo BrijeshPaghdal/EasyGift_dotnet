@@ -12,10 +12,12 @@ namespace EasyGift_API.Models
         [Required]
         [MaxLength(200)]
         public string EmailId { get; set; }
-        
+
         [MaxLength(100)]
         [Required]
-        public string Password { get; set; }
+        private string Password;
+
+        public string password { get { return Password; } set { Password = value; } }
 
 
     }

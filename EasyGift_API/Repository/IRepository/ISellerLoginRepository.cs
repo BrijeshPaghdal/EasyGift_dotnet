@@ -7,5 +7,7 @@ namespace EasyGift_API.Repository.IRepository
 {
     public interface ISellerLoginRepository : IRepository<SellerLogin>
     {
+        Task<LoginResponseDTO<SellerLogin>> Login(LoginRequestDTO requestDTO);
+
     }
 }
