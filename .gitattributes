@@ -34,7 +34,6 @@
 #*.modelproj merge=binary
 #*.sqlproj   merge=binary
 #*.wwaproj   merge=binary
-#*.php       merge=binary
 
 ###############################################################################
 # behavior for image files

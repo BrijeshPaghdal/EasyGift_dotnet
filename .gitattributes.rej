@@ -1,0 +1,9 @@
+diff a/.gitattributes b/.gitattributes	(rejected hunks)
+@@ -34,6 +34,7 @@
+ #*.modelproj merge=binary
+ #*.sqlproj   merge=binary
+ #*.wwaproj   merge=binary
++#*.php       merge=binary
+ 
+ ###############################################################################
+ # behavior for image files
