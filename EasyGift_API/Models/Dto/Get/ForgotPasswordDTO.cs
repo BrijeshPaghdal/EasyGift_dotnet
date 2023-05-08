@@ -9,7 +9,7 @@ namespace EasyGift_API.Models.Dto.Get
 
         public int CustomerLoginId { get; set; }
         
-        public DateTime Validtill { get; set; }
+        public DateTime ValidTill { get; set; }
 
     }
 }

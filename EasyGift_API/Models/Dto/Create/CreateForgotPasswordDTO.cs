@@ -11,7 +11,7 @@ namespace EasyGift_API.Models.Dto.Create
         public int CustomerLoginId { get; set; }
         
         [Required]
-        public DateTime Validtill { get; set; }
+        public DateTime ValidTill { get; set; }
 
     }
 }

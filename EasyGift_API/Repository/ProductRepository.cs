@@ -97,5 +97,51 @@ namespace EasyGift_API.Repository
             }
             return data;
         }
+
+        public async Task<List<dynamic>> GetFilteredProducts(Filter filter)
+        {
+            List<dynamic> datas = new List<dynamic>();
+            using (SqlConnection connection = new SqlConnection(StoredConnection.GetConnection()))
+            {
+                using (SqlCommand cmd = new SqlCommand("GetFilteredProducts", connection))
+                {
+
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@city_name", filter.CityName);
+                    cmd.Parameters.AddWithValue("@minimum_price", filter.MinPrice);
+                    cmd.Parameters.AddWithValue("@maximum_price", filter.MaxPrice);
+                    cmd.Parameters.AddWithValue("@category_name", filter.CategoryName);
+                    cmd.Parameters.AddWithValue("@subcategory_name", filter.SubCategoryName);
+                    cmd.Parameters.AddWithValue("@category_ids", filter.CategoryIds);
+                    cmd.Parameters.AddWithValue("@suggestion_ids", filter.SuggestionIds);
+
+                    if (connection.State != ConnectionState.Open)
+                    {
+                        connection.Open();
+                    }
+                    //cmd.ExecuteNonQuery();
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            dynamic data = new ExpandoObject();
+                            var dict = data as IDictionary<string, object>;
+
+                            for (int i = 0; i < reader.FieldCount; i++)
+                            {
+                                string name = reader.GetName(i);
+                                object value = reader.GetValue(i);
+
+                                dict.Add(name, value);
+                            }
+
+                            datas.Add(data);
+                        }
+                    }
+                }
+                connection.Close();
+            }
+            return datas;
+        }
     }
 }

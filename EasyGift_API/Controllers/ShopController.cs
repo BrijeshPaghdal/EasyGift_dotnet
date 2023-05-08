@@ -234,12 +234,12 @@ namespace EasyGift_API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<APIResponse>> GetProducts(int id = 0, [FromQuery]int Status=3)
+        public async Task<ActionResult<APIResponse>> GetProducts(int id = 0, [FromQuery]int Status=3, [FromQuery] int limit = 0)
         {
             try
             {
 
-                dynamic datas = await _dbShop.GetProducts(id,Status);
+                dynamic datas = await _dbShop.GetProducts(id,Status,limit);
 
                 if (datas == null)
                 {

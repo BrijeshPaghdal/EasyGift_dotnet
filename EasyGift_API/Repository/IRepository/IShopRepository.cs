@@ -13,7 +13,7 @@ namespace EasyGift_API.Repository.IRepository
         Task<dynamic> GetTotalProductSold(int id);
         Task<dynamic> GetTotalProductSoldforChart(int shopId, int limit = 7);
         Task<dynamic> CompleteOrder(int shopId, int OrderId);
-        Task<List<dynamic>> GetProducts(int id = 0,int Status=3);
+        Task<List<dynamic>> GetProducts(int id = 0,int Status=3,int limit=0);
         Task<dynamic> GetOrders(int id,int status =3,int limit=0);
     }
 }

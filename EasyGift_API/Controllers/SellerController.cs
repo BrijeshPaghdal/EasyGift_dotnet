@@ -43,14 +43,15 @@ namespace EasyGift_API.Controllers
                     return BadRequest(CustomMethods<Seller>.ResponseBody(HttpStatusCode.BadRequest, false, Result: createDTO));
 
                 var model = await _dbSeller.CreateSellerAsync(createDTO);
-                if(model.ContainsKey("StatusCode") && (int)model["StatusCode"] == 500)
+                if( model["Result"].Equals("Something went wrong") || model["Result"].Equals("Email Already Exist."))
                 {
                     _response.IsSuccess = false;
                     _response.StatusCode = HttpStatusCode.InternalServerError;
-                    _response.ErrorsMessages =new List<string>() { (string)model["error"] } ;
+                    _response.ErrorsMessages =new List<string>() { (string)model["Result"] } ;
                     return BadRequest(_response);
                 }
                 dynamic result = CustomMethods<Seller>.ConvertDictionaryToObject<Seller>(model);
+                result.Id = (int)model["Result"];
                 _response.Result = result;
                 _response.StatusCode = HttpStatusCode.Created;
                 var Id = result.Id;

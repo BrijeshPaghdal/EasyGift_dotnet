@@ -17,6 +17,6 @@ namespace EasyGift_API.Models.Dto.Create
         [Required]
         public int CustomerStatus { get; set; }
         [Required]
-        private DateTime CreatedDate { get; set; }
+        public DateTime CreatedDate { get; set; }
     }
 }

@@ -57,6 +57,7 @@ namespace EasyGift_API
             CreateMap<CustomerLogin, CustomerLoginDTO>().ReverseMap();
             CreateMap<CustomerLogin, CreateCustomerLoginDTO>().ReverseMap();
             CreateMap<CustomerLogin, UpdateCustomerLoginDTO>().ReverseMap();
+            CreateMap<CustomerLogin, LoginResponseDTO<CustomerLogin>>().ReverseMap();
 
             CreateMap<ForgotPassword, ForgotPasswordDTO>().ReverseMap();
             CreateMap<ForgotPassword, CreateForgotPasswordDTO>().ReverseMap();

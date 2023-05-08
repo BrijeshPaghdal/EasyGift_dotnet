@@ -10,6 +10,8 @@ namespace EasyGift_API.Repository.IRepository
         public Task<dynamic> GetRecentNewCustomer();
         public Task<List<dynamic>> GetAllCustomers();
         public Task<List<dynamic>> GetUserReport(int status);
+        public Task<List<dynamic>> GetOrders(int id);
 
+        public Task<List<dynamic>> GetOrderCompleteNotification(int id);
     }
 }

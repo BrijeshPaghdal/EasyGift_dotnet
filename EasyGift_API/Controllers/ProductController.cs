@@ -89,5 +89,34 @@ namespace EasyGift_API.Controllers
             return _response;
         }
 
+        [HttpPost("filterProduct")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<APIResponse>> GetfilteredProduct([FromBody] Filter filter =null)
+        {
+            if(filter == null)
+                filter = new Filter();
+            try
+            {
+                var datas = await _dbProduct.GetFilteredProducts(filter);
+                if (datas == null)
+                {
+                    _response.StatusCode = HttpStatusCode.BadRequest;
+                    _response.IsSuccess = false;
+                    _response.ErrorsMessages = new List<string>() { "Error Occured" };
+                    return BadRequest(_response);
+                }
+
+                return Ok(CustomMethods<Product>.ResponseBody(HttpStatusCode.OK, false, Result: datas));
+            }
+            catch (Exception ex)
+            {
+                _response.IsSuccess = false;
+                _response.ErrorsMessages = new List<string> { ex.Message };
+            }
+            return _response;
+        }
+
     }
 }

@@ -60,8 +60,8 @@ namespace EasyGift_API.Repository
                         {
                             while(reader.Read())
                             {
-                                int result = (int)reader["Result"];  //reader.GetString(reader.GetOrdinal("Result"));
-                                dict["Id"] = result;
+                                dynamic result = (dynamic)reader["Result"];  //reader.GetString(reader.GetOrdinal("Result"));
+                                dict["Result"] = result;
                                 break;
                             }
                         }
@@ -81,7 +81,7 @@ namespace EasyGift_API.Repository
 
             var modelDict = JsonConvert.DeserializeObject<Dictionary<string, object>>(json);
 
-            modelDict["Id"] = dict["Id"];
+            modelDict["Result"] = dict["Result"];
 
             return modelDict;
         }

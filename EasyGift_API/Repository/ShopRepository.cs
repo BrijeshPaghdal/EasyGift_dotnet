@@ -277,7 +277,7 @@ namespace EasyGift_API.Repository
             return datas;
         }
 
-        public async Task<List<dynamic>> GetProducts(int id = 0,int Status=3)
+        public async Task<List<dynamic>> GetProducts(int id = 0,int Status=3,int limit=0)
         {
             List<dynamic> datas = new List<dynamic>();
             using (SqlConnection connection = new SqlConnection(StoredConnection.GetConnection()))
@@ -286,6 +286,7 @@ namespace EasyGift_API.Repository
                 {
                     cmd.Parameters.AddWithValue("@shop_id", id);
                     cmd.Parameters.AddWithValue("@prod_status", Status);
+                    cmd.Parameters.AddWithValue("@limit", limit);
                     cmd.CommandType = CommandType.StoredProcedure;
                     if (connection.State != ConnectionState.Open)
                     {

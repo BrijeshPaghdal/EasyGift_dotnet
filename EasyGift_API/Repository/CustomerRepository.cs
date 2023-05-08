@@ -140,6 +140,86 @@ namespace EasyGift_API.Repository
             }
             return datas;
         }
+
+        public async Task<List<dynamic>> GetOrders(int id)
+        {
+            List<dynamic> datas = new List<dynamic>();
+            using (SqlConnection connection = new SqlConnection(StoredConnection.GetConnection()))
+            {
+                using (SqlCommand cmd = new SqlCommand("GetOrdersByCustomerId", connection))
+                {
+
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@id", id);
+
+                    if (connection.State != ConnectionState.Open)
+                    {
+                        connection.Open();
+                    }
+                    //cmd.ExecuteNonQuery();
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            dynamic data = new ExpandoObject();
+                            var dict = data as IDictionary<string, object>;
+
+                            for (int i = 0; i < reader.FieldCount; i++)
+                            {
+                                string name = reader.GetName(i);
+                                object value = reader.GetValue(i);
+
+                                dict.Add(name, value);
+                            }
+
+                            datas.Add(data);
+                        }
+                    }
+                }
+                connection.Close();
+            }
+            return datas;
+        }
+
+        public async Task<List<dynamic>> GetOrderCompleteNotification(int id)
+        {
+            List<dynamic> datas = new List<dynamic>();
+            using (SqlConnection connection = new SqlConnection(StoredConnection.GetConnection()))
+            {
+                using (SqlCommand cmd = new SqlCommand("OrderCompleteNotification", connection))
+                {
+
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@cust_id", id);
+
+                    if (connection.State != ConnectionState.Open)
+                    {
+                        connection.Open();
+                    }
+                    //cmd.ExecuteNonQuery();
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            dynamic data = new ExpandoObject();
+                            var dict = data as IDictionary<string, object>;
+
+                            for (int i = 0; i < reader.FieldCount; i++)
+                            {
+                                string name = reader.GetName(i);
+                                object value = reader.GetValue(i);
+
+                                dict.Add(name, value);
+                            }
+
+                            datas.Add(data);
+                        }
+                    }
+                }
+                connection.Close();
+            }
+            return datas;
+        }
     }
 }
 

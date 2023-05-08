@@ -17,7 +17,7 @@ namespace EasyGift_API.Models
         [Required]
         private string Password;
 
-        public string password { get { return null; } set { Password = value; } }
+        public string password { get { return Password; } set { Password = value; } }
 
 
     }
