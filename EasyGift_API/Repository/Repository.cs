@@ -29,7 +29,7 @@ namespace EasyGift_API.Repository
                 query = query.Where(filter);
             if (!tracked)
                 query = query.AsNoTracking();
-            if (filter != null)
+            if (filter == null)
                 query = query.Where(filter);
             return await query.FirstOrDefaultAsync();
         }
@@ -54,6 +54,12 @@ namespace EasyGift_API.Repository
         public async Task RemoveAsync(T entity)
         {
             dbSet.Remove(entity);
+            await SaveAsync();
+        }
+
+        public async Task RemoveByQueryAsync(List<T> entity)
+        {
+            dbSet.RemoveRange(entity);
             await SaveAsync();
         }
 

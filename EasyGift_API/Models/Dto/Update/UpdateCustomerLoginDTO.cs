@@ -7,9 +7,9 @@ namespace EasyGift_API.Models.Dto.Update
         [Required]
         public int Id { get; set; }
         [MaxLength(200)]
-        public string EmailId { get; set; }
+        public string? EmailId { get; set; }
 
         [MaxLength(100)]
-        public string Password { get; set; }
+        public string? Password { get; set; }
     }
 }

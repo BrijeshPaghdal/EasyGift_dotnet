@@ -7,6 +7,7 @@ namespace EasyGift_API.Repository.IRepository
 {
     public interface ISellerOnlineRepository : IRepository<SellerOnline>
     {
+        Task<List<dynamic>> CheckSellerIsOnline(Dictionary<string, object> status);
     }
 }
 

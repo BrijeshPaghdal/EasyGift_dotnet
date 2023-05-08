@@ -273,5 +273,46 @@ namespace EasyGift_API.Controllers
             }
             return Ok(_response);
         }
+
+        [HttpDelete(Name = "[controller]/RemoveDataByFilter")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<APIResponse>> DeleteDataByFilter([FromQuery] string? filter =null)
+        {
+            try
+            {
+                List<TEntity> entity;
+                Expression<Func<TEntity, bool>> Filter;
+                if (filter!=null)
+                {
+                    Filter = CustomMethods<TEntity>.ConvertToExpression<TEntity>(filter);
+                    entity = await _db.GetAllAsync(filter: Filter);
+                }
+                else
+                {
+                     entity = await _db.GetAllAsync();
+                }
+
+                if (entity == null)
+                {
+                    return NotFound(CustomMethods<TEntity>.ResponseBody(HttpStatusCode.NotFound, false));
+
+                }
+                await _db.RemoveByQueryAsync(entity);
+
+                _response.StatusCode = HttpStatusCode.OK;
+                _response.Result = "Record Deleted Successfully";
+
+            }
+            catch (Exception ex)
+            {
+                _response.IsSuccess = false;
+                _response.StatusCode = HttpStatusCode.BadRequest;
+                _response.ErrorsMessages = new List<string> { ex.Message };
+                return BadRequest(_response);
+            }
+            return Ok(_response);
+        }
     }
 }

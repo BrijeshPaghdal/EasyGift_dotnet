@@ -9,6 +9,7 @@ namespace EasyGift_API.Repository.IRepository
         Task<T> GetAsync(Expression<Func<T, bool>>? filter = null, bool tracked = true);
         Task CreateAsync(T entity);
         Task RemoveAsync(T entity);
+        Task RemoveByQueryAsync(List<T> entity);
         Task<T> UpdateAsync(T entity);
         Task SaveAsync();
     }

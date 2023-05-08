@@ -25,14 +25,15 @@ namespace EasyGift_API.Repository
             _db = db;
         }
 
-        public async Task<dynamic> GetProductReviews(int id,int limit=5)
+        public async Task<dynamic> GetProductReviews(int ShopId=0,int ProductId=0,int limit=0)
         {
             List<dynamic> datas = new List<dynamic>();
             using (SqlConnection connection = new SqlConnection(StoredConnection.GetConnection()))
             {
                 using (SqlCommand cmd = new SqlCommand("GetProductReviews", connection))
                 {
-                    cmd.Parameters.AddWithValue("@prod_id", id);
+                    cmd.Parameters.AddWithValue("@shop_id", ShopId);
+                    cmd.Parameters.AddWithValue("@prod_id", ProductId);
                     cmd.Parameters.AddWithValue("@limit", limit);
 
                     cmd.CommandType = CommandType.StoredProcedure;

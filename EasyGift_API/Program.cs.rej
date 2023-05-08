@@ -1,0 +1,9 @@
+diff a/EasyGift_API/Program.cs b/EasyGift_API/Program.cs	(rejected hunks)
+@@ -9,6 +9,7 @@
+ 
+ //Add database connection
+ 
++
+ builder.Services.AddDbContext<ApplicationDbContext>(option =>
+ {
+     option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultSQLConnection"));

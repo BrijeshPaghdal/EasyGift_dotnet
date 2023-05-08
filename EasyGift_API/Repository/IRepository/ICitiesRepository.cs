@@ -7,5 +7,6 @@ namespace EasyGift_API.Repository.IRepository
 {
     public interface ICitiesRepository : IRepository<Cities>
     {
+        Task<List<dynamic>> GetProductsByCity(string cityName,string CategoryName);
     }
 }

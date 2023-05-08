@@ -22,7 +22,7 @@ namespace EasyGift_API.Repository
 
         public async Task<LoginResponseDTO<Admin>> Login(LoginRequestDTO requestDTO)
         {
-            var admin = _db.Admin.FirstOrDefault(u => u.AdminEmail.ToLower() == requestDTO.EmailId.ToLower() && u.AdminPassword == requestDTO.Password);
+            var admin = _db.Admin.FirstOrDefault(u => u.AdminEmail.ToLower() == requestDTO.EmailId.ToLower() && u.adminPassword == requestDTO.Password);
             if (admin == null)
                 return new LoginResponseDTO<Admin>() { User = null };
             LoginResponseDTO<Admin> loginResponseDTO = new LoginResponseDTO<Admin>()

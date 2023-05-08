@@ -27,18 +27,18 @@ namespace EasyGift_API.Controllers
             _response = new APIResponse();
         }
 
-        [HttpGet("GetPastWeekOrder")]
+        [HttpGet("GetPastOrder")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<APIResponse>> GetPastWeekOrder()
+        public async Task<ActionResult<APIResponse>> GetPastOrder([FromQuery] int ShopId = 0, [FromQuery] int limit = 7)
         {
             try
             {
                 
-                dynamic lastWeekOrder = await _db.GetPastWeekOrder();
+                dynamic Order = await _db.GetPastOrder(ShopId,limit);
 
-                if (lastWeekOrder == null)
+                if (Order == null)
                 {
                     _response.StatusCode = HttpStatusCode.BadRequest;
                     _response.IsSuccess = false;
@@ -46,7 +46,7 @@ namespace EasyGift_API.Controllers
                     return BadRequest(_response);
                 }
 
-                return Ok(CustomMethods<Order>.ResponseBody(HttpStatusCode.OK, false, Result: lastWeekOrder));
+                return Ok(CustomMethods<Order>.ResponseBody(HttpStatusCode.OK, false, Result: Order));
             }
             catch (Exception ex)
             {
@@ -55,35 +55,5 @@ namespace EasyGift_API.Controllers
             }
             return _response;
         }
-
-        [HttpGet("GetOrders/{id:int}")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<APIResponse>> GetOrders(int id=0)
-        {
-            try
-            {
-
-                dynamic datas = await _db.GetOrders(id);
-
-                if (datas == null)
-                {
-                    _response.StatusCode = HttpStatusCode.BadRequest;
-                    _response.IsSuccess = false;
-                    _response.ErrorsMessages = new List<string>() { "Error Occured" };
-                    return BadRequest(_response);
-                }
-
-                return Ok(CustomMethods<Order>.ResponseBody(HttpStatusCode.OK, false, Result: datas));
-            }
-            catch (Exception ex)
-            {
-                _response.IsSuccess = false;
-                _response.ErrorsMessages = new List<string> { ex.Message };
-            }
-            return _response;
-        }
-
     }
 }

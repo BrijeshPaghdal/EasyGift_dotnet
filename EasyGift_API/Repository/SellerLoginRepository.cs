@@ -16,9 +16,24 @@ namespace EasyGift_API.Repository
     public class SellerLoginRepository : Repository<SellerLogin>, ISellerLoginRepository
     {
         private readonly ApplicationDbContext _db;
-        public SellerLoginRepository(ApplicationDbContext db) : base(db)
+        private readonly IMapper _mapper;
+
+        public SellerLoginRepository(ApplicationDbContext db, IMapper mapper) : base(db)
         {
             _db = db;
+            _mapper = mapper;
+        }
+
+        public async Task<LoginResponseDTO<SellerLogin>> Login(LoginRequestDTO requestDTO)
+        {
+            var seller = _db.SellerLogin.FirstOrDefault(u => u.EmailId.ToLower() == requestDTO.EmailId.ToLower() && u.password == requestDTO.Password);
+            if (seller == null)
+                return new LoginResponseDTO<SellerLogin>() { User = null };
+            LoginResponseDTO<SellerLogin> loginResponseDTO = new LoginResponseDTO<SellerLogin>()
+            {
+                User = _mapper.Map<SellerLogin>(seller)
+            };
+            return loginResponseDTO;
         }
 
     }

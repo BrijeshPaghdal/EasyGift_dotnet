@@ -11,6 +11,5 @@ namespace EasyGift_API.Models.Dto.Get
         
         public string Password { get; set; }
 
-
     }
 }

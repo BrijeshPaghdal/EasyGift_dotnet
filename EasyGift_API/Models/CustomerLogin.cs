@@ -15,7 +15,9 @@ namespace EasyGift_API.Models
         
         [MaxLength(100)]
         [Required]
-        public string Password { get; set; }
+        private string Password;
+
+        public string password { get { return Password; } set { Password = value; } }
 
 
     }
